@@ -38,7 +38,7 @@ const checkConnection = async () => {
 };
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}.`);
 });
 
 app.get("/test-supabase-connection", async (req, res) => {
