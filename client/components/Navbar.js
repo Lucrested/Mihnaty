@@ -1,12 +1,10 @@
 import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BottomSheet, Button } from "react-native-elements";
-// import * as Icons from "react-native-heroicons/solid";
 
 const onTabPress = () => {};
 
 export default function Navbar() {
-  const tailwind = useTailwind();
   return (
     <View style={navBarStyles.container}>
       <TouchableOpacity onPress={() => onTabPress(0)}>
@@ -21,9 +19,7 @@ export default function Navbar() {
       <TouchableOpacity
         style={navBarStyles.Button}
         onPress={() => onTabPress(4)}
-      >
-        {/* <Icons.SparklesIcon /> */}
-      </TouchableOpacity>
+      ></TouchableOpacity>
     </View>
   );
 }

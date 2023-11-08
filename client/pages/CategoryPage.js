@@ -1,11 +1,25 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import { View } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import CategoryCard from "../components/CategoryCard";
 
-export default function CategoryPage() {
+const CategoryPage = () => {
+  const [categories, setCategories] = useState(null);
+
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={categoryList.container}>
+        {categories.map((category) => {
+          <CategoryCard key={category.id} category={category} />;
+        })}
+      </SafeAreaView>
       <Navbar />
-    </View>
+    </SafeAreaView>
   );
-}
+};
+
+const categoryList = StyleSheet.create({
+  container: {},
+});
+
+export default CategoryPage;
