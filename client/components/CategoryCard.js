@@ -1,21 +1,23 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, Text } from "react-native-elements";
 
 const CategoryCard = ({ category }) => {
   return (
-    <SafeAreaView style={categoryStyles.cardContainer}>
-      <image
-        style={categoryStyles.categoryImage}
-        source={{ uri: category.imageURL }}
-      />
-      <Text style={categoryStyles.categoryName}>{category.categoryName}</Text>
+    <SafeAreaView style={[categoryStyles.cardContainer]}>
+      <TouchableOpacity style={categoryStyles.touchable}>
+        <Image
+          style={categoryStyles.categoryImage}
+          source={category.imageURL}
+        />
+        <Text style={categoryStyles.categoryName}>{category.categoryName}</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
 
-const categoryStyles = StyleSheetSheet.create({
+const categoryStyles = StyleSheet.create({
   cardContainer: {
-    backgroundColor: "gray",
     borderRadius: 10,
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
@@ -36,6 +38,10 @@ const categoryStyles = StyleSheetSheet.create({
     marginTop: 10,
     fontSize: 16,
     fontWeight: "bold",
+  },
+  touchable: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
