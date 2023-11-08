@@ -8,7 +8,7 @@ const CategoryCard = ({ category }) => {
       <TouchableOpacity style={categoryStyles.touchable}>
         <Image
           style={categoryStyles.categoryImage}
-          source={category.imageURL}
+          source={{ uri: category.categoryURL }}
         />
         <Text style={categoryStyles.categoryName}>{category.categoryName}</Text>
       </TouchableOpacity>
