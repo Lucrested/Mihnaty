@@ -1,13 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import SectionListBasics from './pages/provList';
+import {TopBar}  from './pages/topbar';
+
 
 export default function App() {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <TopBar/>
+      
+      <SectionListBasics/> 
+      
+    </SafeAreaView>
+
+
   );
+  
 }
 
 const styles = StyleSheet.create({
