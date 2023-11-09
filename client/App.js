@@ -1,28 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import SectionListBasics from './pages/provList';
-import {TopBar}  from './pages/topbar';
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import SectionListBasics from "./pages/provList";
+import { TopBar } from "./pages/topbar";
 import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
 
 export default function App() {
-
   return (
-    <View style={styles.container}>
-      
-    </View>
-  );
     <SafeAreaView style={{ flex: 1 }}>
-      <TopBar/>
-      <CategoryPage />
-      <SectionListBasics/> 
-      
+      <TopBar />
+      <SectionListBasics />
+      <Navbar />
     </SafeAreaView>
-
-
   );
-  
 }
 
 const styles = StyleSheet.create({

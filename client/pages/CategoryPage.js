@@ -39,7 +39,6 @@ const CategoryPage = () => {
           />
         ))}
       </SafeAreaView>
-      <Navbar />
     </SafeAreaView>
   );
 };
@@ -47,7 +46,7 @@ const CategoryPage = () => {
 const categoryList = StyleSheet.create({
   container: {
     flex: 1, // Fill the available space
-    backgroundColor: "gray", // Background color
+    backgroundColor: "black", // Background color
     justifyContent: "center", // Center children vertically
     alignItems: "center", // Center children horizontally
     flexWrap: "wrap",
