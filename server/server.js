@@ -1,5 +1,6 @@
 import express from "express";
 import { createClient } from "@supabase/supabase-js";
+import cors from "cors";
 
 const supabaseUrl = "https://avqehneljdhiwqfvpmqa.supabase.co";
 const supabaseKey =
@@ -11,9 +12,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 
-const checkConnection = async () => {
+const testSupabaseConnection = async () => {
   try {
+    // Make a simple query to check the connection
     const { data, error } = await supabase.from("test").select("*");
     if (error) {
       return {
@@ -25,7 +28,6 @@ const checkConnection = async () => {
       return {
         success: true,
         message: "Supabase connection is established",
-        body: data,
       };
     }
   } catch (err) {
@@ -42,6 +44,15 @@ app.listen(port, () => {
 });
 
 app.get("/test-supabase-connection", async (req, res) => {
-  const connectionTestResult = await checkConnection();
+  const connectionTestResult = await testSupabaseConnection();
   res.json(connectionTestResult);
+});
+
+app.get("/api/categories", async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("Category").select("*");
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
 });

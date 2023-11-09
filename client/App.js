@@ -3,14 +3,19 @@ import { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import SectionListBasics from './pages/provList';
 import {TopBar}  from './pages/topbar';
-
+import Navbar from "./components/Navbar";
+import CategoryPage from "./pages/CategoryPage";
 
 export default function App() {
 
   return (
+    <View style={styles.container}>
+      
+    </View>
+  );
     <SafeAreaView style={{ flex: 1 }}>
       <TopBar/>
-      
+      <CategoryPage />
       <SectionListBasics/> 
       
     </SafeAreaView>
@@ -23,8 +28,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
