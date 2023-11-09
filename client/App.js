@@ -6,6 +6,7 @@ import { TopBar } from "./pages/topbar";
 import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
 
+
 export default function App() {
   return (
     <SafeAreaView style={{ flex: 1 }}>

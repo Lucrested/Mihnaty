@@ -25,13 +25,14 @@ const DATA = [
 
 const Item = ({title}) => (
   <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
+    <Text style={styles.times}>{title}</Text>
   </View>
 );
 
 export const BookL = () => {
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Open Booking Slots</Text>
       <FlatList
         data={DATA}
         renderItem={({item}) => <Item title={item.title} />}
@@ -53,10 +54,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     borderRadius: 10,
   },
-  title: {
+  times: {
     fontSize: 32,
     textAlign: 'center', // Center the text horizontally
     color: 'white',
+    fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 20, // Change the font size for the title
+    fontWeight: 'bold',
+    marginTop: 10, 
+    lineHeight: 20,
+    textAlign: 'center',
   },
 });
 
