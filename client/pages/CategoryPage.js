@@ -54,7 +54,6 @@ const categoryList = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: "auto",
     width: 400,
-    marginVertical: 10,
   },
   item: {
     minWidth: 100,
