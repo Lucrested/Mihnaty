@@ -51,7 +51,8 @@ app.get("/test-supabase-connection", async (req, res) => {
 app.get("/api/categories", async (req, res) => {
   try {
     const { data, error } = await supabase.from("Category").select("*");
-    res.json(data);
+    if (data != null) res.json(data).status(200);
+    else res.console.error("Couldn't get data from database.");
   } catch (error) {
     res.json(error);
   }

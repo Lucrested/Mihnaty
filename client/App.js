@@ -14,12 +14,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <SafeAreaView style={styles.container}>
-        {/* <TopBar /> */}
+        <TopBar />
         <Stack.Navigator
           initialRouteName={"Categories"}
-          screenOptions={{ headerStyle: { backgroundColor: "green" } }}
+          screenOptions={{
+            headerShown: "false",
+          }}
         >
-          <Stack.Screen name="Categories" component={CategoryPage} />
+          <Stack.Screen
+            name="Categories"
+            component={CategoryPage}
+            options={{ headerShown: "false" }}
+          />
           <Stack.Screen name="ProvList" component={SectionListBasics} />
         </Stack.Navigator>
         <Navbar />
