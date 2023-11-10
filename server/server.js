@@ -56,3 +56,12 @@ app.get("/api/categories", async (req, res) => {
     res.json(error);
   }
 });
+
+app.get("/api/providers", async (req, res) => {
+  try {
+    const { data, error } = await supabase.from("providers-test").select("*");
+    res.json(data);
+  } catch (error) {
+    res.json(error);
+  }
+});
