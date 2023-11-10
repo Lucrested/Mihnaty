@@ -9,7 +9,7 @@ const CategoryCard = ({ category }) => {
     <SafeAreaView style={[categoryStyles.cardContainer]}>
       <TouchableOpacity
         style={categoryStyles.touchable}
-        onPress={() => navigation.navigate("ProvList")}
+        onPress={() => navigation.navigate("Available Providers")}
       >
         <Image
           style={categoryStyles.categoryImage}

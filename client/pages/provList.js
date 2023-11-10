@@ -1,47 +1,39 @@
+import React from "react";
 import { StatusBar, Stack } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, SectionList, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { COLORS, icons, images, SIZES } from '../constants';
 import BookL from './provBook';
+import { useNavigation } from "@react-navigation/core";
 
 const SectionListBasics = () => {
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  const handleItemPress = (item) => {
-    setSelectedItem(item);
-  };
-
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-      {selectedItem ? (
-        <SafeAreaView style={{ flex: 1 }}>
-          <BookL />
-        </SafeAreaView>
-      ) : (
-        <ScrollView>
-          <Text style={styles.title}>Ratings</Text>
-          <SectionList
-            sections={[
-              { title: '5 ★', data: ['Alae', 'Sara'] },
-              { title: '4 ★', data: ['Hamid'] },
-              { title: '3 ★', data: ['Sami', 'Hussam', 'Azziz'] },
-              { title: '2 ★', data: ['Badr'] },
-              { title: '1 ★', data: ['Salim', 'Omar'] },
-            ]}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleItemPress(item)}>
-                <View>
-                  <Text style={styles.item}>{item}</Text>
-                </View>
-              </TouchableOpacity>
-            )}
-            renderSectionHeader={({ section }) => (
-              <Text style={styles.sectionHeader}>{section.title}</Text>
-            )}
-            keyExtractor={(item) => `basicListEntry-${item}`}
-          />
-        </ScrollView>
-      )}
+      <ScrollView>
+        <Text style={styles.title}>Ratings</Text>
+        <SectionList
+          sections={[
+            { title: '5 ★', data: ['Alae', 'Sara'] },
+            { title: '4 ★', data: ['Hamid'] },
+            { title: '3 ★', data: ['Sami', 'Hussam', 'Azziz'] },
+            { title: '2 ★', data: ['Badr'] },
+            { title: '1 ★', data: ['Salim', 'Omar'] },
+          ]}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => navigation.navigate("Booking")}>
+              <View>
+                <Text style={styles.item}>{item}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          renderSectionHeader={({ section }) => (
+            <Text style={styles.sectionHeader}>{section.title}</Text>
+          )}
+          keyExtractor={(item) => `basicListEntry-${item}`}
+        />
+      </ScrollView>
+      
     </SafeAreaView>
   );
 };

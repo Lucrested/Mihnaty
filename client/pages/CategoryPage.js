@@ -9,7 +9,7 @@ const CategoryPage = () => {
   const getCategories = async () => {
     try {
       const categoryResponse = await fetch(
-        "http://10.121.46.79:3000/api/categories"
+        "http://10.126.10.237:3000/api/categories"
       );
       if (categoryResponse.ok) {
         const data = await categoryResponse.json();
