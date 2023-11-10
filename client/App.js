@@ -1,26 +1,39 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import SectionListBasics from "./pages/provList";
-import { TopBar } from "./pages/topbar";
+import { TopBar } from "./components/topbar";
 import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
+import { NavigationContainer, StackActions } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <TopBar />
-      <SectionListBasics />
-      <Navbar />
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={styles.container}>
+        {/* <TopBar /> */}
+        <Stack.Navigator
+          initialRouteName={"Categories"}
+          screenOptions={{ headerStyle: { backgroundColor: "green" } }}
+        >
+          <Stack.Screen name="Categories" component={CategoryPage} />
+          <Stack.Screen name="ProvList" component={SectionListBasics} />
+        </Stack.Navigator>
+        <Navbar />
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    // backgroundColor: "black",
+  },
+  item: {
+    // backgroundColor: "black",
   },
 });
