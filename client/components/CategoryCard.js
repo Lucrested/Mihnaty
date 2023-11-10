@@ -1,11 +1,16 @@
+import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { Image, Text } from "react-native-elements";
 
 const CategoryCard = ({ category }) => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={[categoryStyles.cardContainer]}>
-      <TouchableOpacity style={categoryStyles.touchable}>
+      <TouchableOpacity
+        style={categoryStyles.touchable}
+        onPress={() => navigation.navigate("Available Providers")}
+      >
         <Image
           style={categoryStyles.categoryImage}
           source={{ uri: category.categoryURL }}

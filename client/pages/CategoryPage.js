@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View, Text } from "react-native";
 import CategoryCard from "../components/CategoryCard";
 
 const CategoryPage = () => {
@@ -9,7 +9,7 @@ const CategoryPage = () => {
   const getCategories = async () => {
     try {
       const categoryResponse = await fetch(
-        "http://10.121.46.79:3000/api/categories"
+        "http://10.126.10.237:3000/api/categories"
       );
       if (categoryResponse.ok) {
         const data = await categoryResponse.json();
@@ -30,7 +30,7 @@ const CategoryPage = () => {
 
   return (
     <SafeAreaView>
-      <SafeAreaView style={categoryList.container}>
+      <SafeAreaView>
         {categories.map((category) => (
           <CategoryCard
             key={category.id}
@@ -52,6 +52,7 @@ const categoryList = StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     marginHorizontal: "auto",
+    paddingVertical: "auto",
     width: 400,
   },
   item: {
