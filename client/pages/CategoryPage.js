@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { SafeAreaView, ScrollView, StyleSheet, View, Text } from "react-native";
 import CategoryCard from "../components/CategoryCard";
+import { images, icons, COLORS, FONTS, SIZES } from "../constants";
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]);
@@ -9,9 +10,10 @@ const CategoryPage = () => {
   const getCategories = async () => {
     try {
       const categoryResponse = await fetch(
-        "http://10.126.10.237:3000/api/categories"
+        "http://10.121.46.79:3000/api/categories"
       );
       if (categoryResponse.ok) {
+        console.log("entered ok");
         const data = await categoryResponse.json();
         setCategories(data);
       } else {
@@ -29,14 +31,28 @@ const CategoryPage = () => {
   }, []);
 
   return (
-    <SafeAreaView>
-      <SafeAreaView>
+    // <SafeAreaView>
+    //   <SafeAreaView>
+    //     {categories.map((category) => (
+    //       <CategoryCard
+    //         key={category.id}
+    //         category={category}
+    //         style={categoryList.item}
+    //       />
+    //     ))}
+    //   </SafeAreaView>
+    // </SafeAreaView>
+    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+      <SafeAreaView
+        style={{
+          flexDirection: "row",
+          marginTop: SIZES.padding,
+          paddingHorizontal: SIZES.base,
+        }}
+      >
+        {console.log("entered second safeareaview")}
         {categories.map((category) => (
-          <CategoryCard
-            key={category.id}
-            category={category}
-            style={categoryList.item}
-          />
+          <CategoryCard key={category.id} category={category} />
         ))}
       </SafeAreaView>
     </SafeAreaView>
