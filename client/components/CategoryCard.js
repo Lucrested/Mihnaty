@@ -15,9 +15,9 @@ const CategoryCard = ({ category }) => {
       >
         <Image
           style={categoryStyles.categoryImage}
-          source={{ uri: category.categoryURL }}
+          source={{ uri: category.CategoryURL }}
         />
-        <Text style={categoryStyles.categoryName}>{category.categoryName}</Text>
+        <Text style={categoryStyles.categoryName}>{category.CategoryName}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
