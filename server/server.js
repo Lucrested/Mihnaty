@@ -52,6 +52,7 @@ app.get("/api/categories", async (req, res) => {
   try {
     const { data, error } = await supabase.from("Category").select("*");
     res.json(data);
+    console.log("Data gotten");
   } catch (error) {
     res.json(error);
   }
