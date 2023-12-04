@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
-import { SafeAreaView, ScrollView, StyleSheet, View, Text } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+} from "react-native";
 import CategoryCard from "../components/CategoryCard";
 import { images, icons, COLORS, FONTS, SIZES } from "../constants";
 
@@ -28,48 +35,105 @@ const CategoryPage = () => {
 
   useEffect(() => {
     getCategories();
+    console.log(categories.toString());
+  }, []);
+
+  // return (
+  //   <SafeAreaView>
+  //     <SafeAreaView>
+  //       {categories.map((category) => (
+  //         <CategoryCard
+  //           key={category.id}
+  //           category={category}
+  //           style={categoryList.item}
+  //         />
+  //       ))}
+  //     </SafeAreaView>
+  //   </SafeAreaView>
+  //     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+  //       <SafeAreaView
+  //         style={{
+  //           flexDirection: "row",
+  //           marginTop: SIZES.padding,
+  //           paddingHorizontal: SIZES.base,
+  //         }}
+  //       >
+  //         {console.log("entered second safeareaview")}
+  //         {categories &&
+  //           categories.map((category) => (
+  //             <CategoryCard key={category.id} category={category} />
+  //           ))}
+  //       </SafeAreaView>
+  //     </SafeAreaView>
+  //   );
+  // };
+
+  // const categoryList = StyleSheet.create({
+  //   container: {
+  //     flex: 1, // Fill the available space
+  //     backgroundColor: "black", // Background color
+  //     justifyContent: "center", // Center children vertically
+  //     alignItems: "center", // Center children horizontally
+  //     flexWrap: "wrap",
+  //     flexDirection: "row",
+  //     marginHorizontal: "auto",
+  //     paddingVertical: "auto",
+  //     width: 400,
+  //   },
+  //   item: {
+  //     minWidth: 100,
+  //     maxWidth: 100,
+  //     margin: 10,
+  //     justifyContent: "center",
+  //     alignItems: "center",
+  //   },
+  // });
+
+  const renderCategoryRow = ({ item }) => (
+    <View style={categoryList.row}>
+      {item.map((category) => (
+        <CategoryCard
+          key={category.id}
+          category={category}
+          style={categoryList.item}
+        />
+      ))}
+    </View>
+  );
+
+  const groupedCategories = categories.reduce((result, category, index) => {
+    const row = Math.floor(index / 3);
+    if (!result[row]) {
+      result[row] = [];
+    }
+    result[row].push(category);
+    return result;
   }, []);
 
   return (
-    // <SafeAreaView>
-    //   <SafeAreaView>
-    //     {categories.map((category) => (
-    //       <CategoryCard
-    //         key={category.id}
-    //         category={category}
-    //         style={categoryList.item}
-    //       />
-    //     ))}
-    //   </SafeAreaView>
-    // </SafeAreaView>
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
-      <SafeAreaView
-        style={{
-          flexDirection: "row",
-          marginTop: SIZES.padding,
-          paddingHorizontal: SIZES.base,
-        }}
-      >
-        {console.log("entered second safeareaview")}
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
-      </SafeAreaView>
+    <SafeAreaView style={categoryList.container}>
+      <ScrollView style={{ flex: 1 }}>
+        <FlatList
+          data={groupedCategories}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderCategoryRow}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const categoryList = StyleSheet.create({
   container: {
-    flex: 1, // Fill the available space
-    backgroundColor: "black", // Background color
-    justifyContent: "center", // Center children vertically
-    alignItems: "center", // Center children horizontally
-    flexWrap: "wrap",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: COLORS.white,
+  },
+  row: {
     flexDirection: "row",
-    marginHorizontal: "auto",
-    paddingVertical: "auto",
-    width: 400,
+    justifyContent: "space-between",
+    marginBottom: 16,
   },
   item: {
     minWidth: 100,

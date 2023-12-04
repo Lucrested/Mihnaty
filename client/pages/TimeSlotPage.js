@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   SafeAreaView,
   View,
@@ -6,24 +6,24 @@ import {
   StyleSheet,
   Text,
   StatusBar,
-} from 'react-native';
+} from "react-native";
 
 const DATA = [
   {
-    id: '1',
-    title: '1:00pm - 2:00pm',
+    id: "1",
+    title: "1:00pm - 2:00pm",
   },
   {
-    id: '2',
-    title: '3:00pm - 4:00pm',
+    id: "2",
+    title: "3:00pm - 4:00pm",
   },
   {
-    id: '3',
-    title: '5:00pm - 6:00pm',
+    id: "3",
+    title: "5:00pm - 6:00pm",
   },
 ];
 
-const Item = ({title}) => (
+const Item = ({ title }) => (
   <View style={styles.item}>
     <Text style={styles.times}>{title}</Text>
   </View>
@@ -35,8 +35,8 @@ export const BookL = () => {
       <Text style={styles.title}>Open Booking Slots</Text>
       <FlatList
         data={DATA}
-        renderItem={({item}) => <Item title={item.title} />}
-        keyExtractor={item => item.id}
+        renderItem={({ item }) => <Item title={item.title} />}
+        keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
   );
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    backgroundColor: '#1d3557',
+    backgroundColor: "#1d3557",
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -56,16 +56,16 @@ const styles = StyleSheet.create({
   },
   times: {
     fontSize: 32,
-    textAlign: 'center', // Center the text horizontally
-    color: 'white',
-    fontWeight: 'bold',
+    textAlign: "center", // Center the text horizontally
+    color: "white",
+    fontWeight: "bold",
   },
   title: {
     fontSize: 20, // Change the font size for the title
-    fontWeight: 'bold',
-    marginTop: 10, 
+    fontWeight: "bold",
+    marginTop: 10,
     lineHeight: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 
