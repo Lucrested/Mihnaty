@@ -87,20 +87,22 @@ const SectionListBasics = () => {
         <SectionList
           sections={providers.map((item) => ({
             title: `${item.Rating} ★`,
-            data: [item.name],
+            data: [item],
           }))}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleProviderPress(item.id)}>
-              {console.log("Third provider id: ", item.id)}
+            <TouchableOpacity
+              onPress={() => handleProviderPress(item.ProviderID)}
+            >
+              {console.log("Third provider id: ", item.ProviderID)}
               <View>
-                <Text style={styles.item}>{item}</Text>
+                <Text style={styles.item}>{item.name}</Text>
               </View>
             </TouchableOpacity>
           )}
           renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
           )}
-          keyExtractor={(item) => `basicListEntry-${item}`}
+          keyExtractor={(item) => `basicListEntry-${item.id}`}
         />
       </ScrollView>
     </SafeAreaView>
