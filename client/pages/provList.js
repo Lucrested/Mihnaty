@@ -75,6 +75,11 @@ const SectionListBasics = () => {
     fetchSections();
   }, []);
 
+  const handleProviderPress = (ProviderID) => {
+    console.log("Second Provider id: ", ProviderID);
+    navigation.navigate("Booking", { ProviderID });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -85,7 +90,8 @@ const SectionListBasics = () => {
             data: [item.name],
           }))}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate("Booking")}>
+            <TouchableOpacity onPress={() => handleProviderPress(item.id)}>
+              {console.log("Third provider id: ", item.id)}
               <View>
                 <Text style={styles.item}>{item}</Text>
               </View>

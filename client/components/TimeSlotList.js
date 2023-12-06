@@ -23,7 +23,7 @@ const TimeSlotList = ({ timeSlots, onTimeSlotPress }) => {
   return (
     <FlatList
       data={timeSlots}
-      keyExtractor={(item) => item.id.toString()}
+      keyExtractor={(item) => item.TimeSlotID.toString()}
       renderItem={renderTimeSlot}
       horizontal={true}
       showsHorizontalScrollIndicator={false}
