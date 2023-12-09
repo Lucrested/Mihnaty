@@ -10,40 +10,33 @@ import {
 import TimeSlotList from "../components/TimeSlotList";
 import { useRoute } from "@react-navigation/native";
 
-const TimeSlotPage = () => {
-  // const [timeSlots, setTimeSlots] = useState([
-  //   {
-  //     id: "1",
-  //     StartTime: "09:00 AM",
-  //     EndTime: "10:00 AM",
-  //     Date: "2023-12-03",
-  //   },
-  //   {
-  //     id: "2",
-  //     StartTime: "10:00 AM",
-  //     EndTime: "11:00 AM",
-  //     Date: "2023-12-03",
-  //   },
-  //   {
-  //     id: "3",
-  //     StartTime: "11:00 AM",
-  //     EndTime: "12:00 PM",
-  //     Date: "2023-12-03",
-  //   },
-  //   {
-  //     id: "4",
-  //     StartTime: "12:00 PM",
-  //     EndTime: "01:00 PM",
-  //     Date: "2023-12-03",
-  //   },
-  //   {
-  //     id: "5",
-  //     StartTime: "02:00 PM",
-  //     EndTime: "03:00 PM",
-  //     Date: "2023-12-03",
-  //   },
-  // ]);
+const handleTimeSlotPress = async (selectedTimeSlot) => {
+  try {
+    const response = await fetch(
+      "http://10.121.46.79:3000/api/userschedule/add-timeslot",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: "your_user_id", // Replace with the actual user ID
+          timeSlotId: selectedTimeSlot.TimeSlotID,
+        }),
+      }
+    );
 
+    if (response.ok) {
+      console.log("Time slot added to user schedule");
+    } else {
+      console.error("Error adding time slot to user schedule");
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const TimeSlotPage = () => {
   const [timeSlots, setTimeSlots] = useState([]);
 
   const route = useRoute();

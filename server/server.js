@@ -85,3 +85,46 @@ app.get("/api/timeslots/:ProviderID", async (req, res) => {
     res.json(error);
   }
 });
+
+app.get("/api/userschedule/:userID", async (req, res) => {
+  try {
+    const userID = req.params.userID;
+
+    const { data, error } = await supabase
+      .from("UserSchedule")
+      .select("*")
+      .eq("UserID", userID);
+
+    if (error) throw error;
+
+    res.json(data);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+app.post("/api/userschedule/add-timeslot", async (req, res) => {
+  try {
+    const { UserID, TimeSlotID, BookingDate } = req.body;
+
+    const { data, error } = await supabase.from("UserSchedule").upsert(
+      [
+        {
+          UserID: UserID,
+          TimeSlotID: TimeSlotID,
+          BookingDate: BookingDate,
+        },
+      ],
+      { onConflict: ["UserID", "TimeSlotID"] }
+    );
+
+    if (error) throw error;
+
+    res.json({
+      message: "Time slot added to user Schedule",
+      ScheduleID: data[0].ScheduleID,
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+});
