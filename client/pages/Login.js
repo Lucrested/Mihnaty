@@ -11,7 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import CategoryPage from "./CategoryPage";
-//import { supabase } from '../../server/db';
+import {supabase} from "../supabase"
 
 const Login = () => {
   const navigation = useNavigation();

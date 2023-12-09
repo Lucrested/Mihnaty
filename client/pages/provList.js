@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { COLORS, icons, images, SIZES, FONTS } from "../constants";
 import { useNavigation } from "@react-navigation/core";
+import {supabase} from "../supabase"
 
 const SectionListBasics = () => {
   const [providers, setProviders] = useState([]);
@@ -23,7 +24,7 @@ const SectionListBasics = () => {
 
   //POP up
 
-  const Pop = ({ ProviderID, modalVisible, setModalVisible }) => {
+  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating }) => {
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -40,7 +41,7 @@ const SectionListBasics = () => {
                 <View style={{ flexDirection: "row" }}>
                   <View style={styles.shadow}>
                     <Image
-                      source={images.skiVilla}
+                      source={{ uri: picture }} // Use the picture URL from props
                       resizeMode="cover"
                       style={{
                         width: 70,
@@ -49,7 +50,7 @@ const SectionListBasics = () => {
                       }}
                     />
                   </View>
-
+  
                   <View
                     style={{
                       marginHorizontal: SIZES.radius,
@@ -60,11 +61,11 @@ const SectionListBasics = () => {
                     <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
                       Category
                     </Text>
-
-                    <StarReview rate={4.5} />
+  
+                    <StarReview rate={rating} />
                   </View>
                 </View>
-
+  
                 <View style={{ marginTop: SIZES.radius }}>
                   <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
                     More info and description if needed
@@ -79,7 +80,7 @@ const SectionListBasics = () => {
               </Pressable>
               <Pressable
                 style={styles.buttonX}
-                onPress={() => handleClosePress()}
+                onPress={() => handleClosePress(ProviderID)}
               >
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
@@ -89,7 +90,6 @@ const SectionListBasics = () => {
       </View>
     );
   };
-
   const [modalVisible, setModalVisible] = useState({});
 
   const handlePopPress = (ProviderID) => {
@@ -111,12 +111,12 @@ const SectionListBasics = () => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.46.79:3000/api/providers"
+        "http://10.121.19.142:3000/api/providers"
       );
 
       if (provListResponse.ok) {
         const providersData = await provListResponse.json();
-        setProviders(providersData);
+
         // Initialize modalVisible state for each provider
         setModalVisible(
           providersData.reduce((acc, provider) => {
@@ -124,6 +124,33 @@ const SectionListBasics = () => {
             return acc;
           }, {})
         );
+
+        // Fetch image URL and rating for each provider from Supabase
+        const promises = providersData.map(async (provider) => {
+          const { data: imagesData, error: imagesError } = await supabase
+            .from('provider-test')
+            .select('pic_url')
+            .eq('ProviderID', provider.ProviderID)
+            .single();
+
+          const { data: ratingsData, error: ratingsError } = await supabase
+            .from('provider-test')
+            .select('Rating')
+            .eq('ProviderID', provider.ProviderID)
+            .single();
+
+          return {
+            ...provider,
+            picture: imagesData?.pic_url || '',
+            rating: ratingsData?.Rating || 0,
+          };
+        });
+
+        // Wait for all promises to resolve
+        const updatedProviders = await Promise.all(promises);
+        
+        // Update state with the fetched data
+        setProviders(updatedProviders);
       } else {
         console.error(
           "Error fetching providers:",
@@ -175,6 +202,8 @@ const SectionListBasics = () => {
                 setModalVisible={(value) =>
                   setModalVisible({ ...modalVisible, [item.ProviderID]: value })
                 }
+                picture={item.pic_url} // Pass the picture URL from the fetched data
+                rating={item.Rating}   // Pass the rating from the fetched data
               />
             </View>
           )}

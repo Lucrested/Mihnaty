@@ -17,7 +17,7 @@ const CategoryPage = () => {
   const getCategories = async () => {
     try {
       const categoryResponse = await fetch(
-        "http://10.121.46.79:3000/api/categories"
+        "http://10.121.19.142:3000/api/categories"
       );
       if (categoryResponse.ok) {
         console.log("entered ok");
@@ -38,56 +38,7 @@ const CategoryPage = () => {
     console.log(categories.toString());
   }, []);
 
-  // return (
-  //   <SafeAreaView>
-  //     <SafeAreaView>
-  //       {categories.map((category) => (
-  //         <CategoryCard
-  //           key={category.id}
-  //           category={category}
-  //           style={categoryList.item}
-  //         />
-  //       ))}
-  //     </SafeAreaView>
-  //   </SafeAreaView>
-  //     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
-  //       <SafeAreaView
-  //         style={{
-  //           flexDirection: "row",
-  //           marginTop: SIZES.padding,
-  //           paddingHorizontal: SIZES.base,
-  //         }}
-  //       >
-  //         {console.log("entered second safeareaview")}
-  //         {categories &&
-  //           categories.map((category) => (
-  //             <CategoryCard key={category.id} category={category} />
-  //           ))}
-  //       </SafeAreaView>
-  //     </SafeAreaView>
-  //   );
-  // };
 
-  // const categoryList = StyleSheet.create({
-  //   container: {
-  //     flex: 1, // Fill the available space
-  //     backgroundColor: "black", // Background color
-  //     justifyContent: "center", // Center children vertically
-  //     alignItems: "center", // Center children horizontally
-  //     flexWrap: "wrap",
-  //     flexDirection: "row",
-  //     marginHorizontal: "auto",
-  //     paddingVertical: "auto",
-  //     width: 400,
-  //   },
-  //   item: {
-  //     minWidth: 100,
-  //     maxWidth: 100,
-  //     margin: 10,
-  //     justifyContent: "center",
-  //     alignItems: "center",
-  //   },
-  // });
 
   const renderCategoryRow = ({ item }) => (
     <View style={categoryList.row}>
