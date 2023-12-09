@@ -92,7 +92,7 @@ const SectionListBasics = () => {
 
   const [modalVisible, setModalVisible] = useState({});
 
-  const handlePopPress = () => {
+  const handlePopPress = (ProviderID) => {
     setModalVisible({ ...modalVisible, [ProviderID]: true });
   };
 
@@ -164,16 +164,16 @@ const SectionListBasics = () => {
           }, [])}
           renderItem={({ item }) => (
             <View>
-              <TouchableOpacity onPress={() => handlePopPress(item.id)}>
+              <TouchableOpacity onPress={() => handlePopPress(item.ProviderID)}>
                 <View>
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
               </TouchableOpacity>
               <Pop
-                ProviderID={item.id}
-                modalVisible={modalVisible[item.id]}
+                ProviderID={item.ProviderID}
+                modalVisible={modalVisible[item.ProviderID]}
                 setModalVisible={(value) =>
-                  setModalVisible({ ...modalVisible, [item.id]: value })
+                  setModalVisible({ ...modalVisible, [item.ProviderID]: value })
                 }
               />
             </View>
@@ -181,7 +181,7 @@ const SectionListBasics = () => {
           renderSectionHeader={({ section }) => (
             <Text style={styles.sectionHeader}>{section.title}</Text>
           )}
-          keyExtractor={(item) => `basicListEntry-${item.id}`}
+          keyExtractor={(item) => `basicListEntry-${item.ProviderID}`}
         />
       </ScrollView>
     </SafeAreaView>
