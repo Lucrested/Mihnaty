@@ -52,6 +52,7 @@ app.get("/api/categories", async (req, res) => {
   try {
     const { data, error } = await supabase.from("Category").select("*");
     res.json(data);
+    console.log("Data gotten");
   } catch (error) {
     res.json(error);
   }
@@ -62,6 +63,25 @@ app.get("/api/providers", async (req, res) => {
     const { data, error } = await supabase.from("providers-test").select("*");
     res.json(data);
   } catch (error) {
+    res.json(error);
+  }
+});
+
+app.get("/api/timeslots/:ProviderID", async (req, res) => {
+  try {
+    const ProviderID = req.params.ProviderID;
+    const { data, error } = await supabase
+      .from("TimeSlot")
+      .select("*")
+      .filter("ProviderID", "eq", ProviderID);
+
+    console.log("Time Slot Data gotten: ", data);
+
+    if (error) throw error;
+
+    res.json(data);
+  } catch (error) {
+    console.error(error.message);
     res.json(error);
   }
 });
