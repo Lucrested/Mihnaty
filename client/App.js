@@ -6,6 +6,7 @@ import { TopBar } from "./components/topbar";
 import TimeSlotPage from "./pages/TimeSlotPage";
 import Navbar from "./components/Navbar";
 import CategoryPage from "./pages/CategoryPage";
+import Login from "./pages/Login";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -14,10 +15,12 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      
       <SafeAreaView style={styles.container}>
-        {/* <TopBar /> */}
+        
+        
         <Stack.Navigator
-          initialRouteName={"Categories"}
+          initialRouteName={"Login"}
           screenOptions={{
             headerStyle: styles.header,
             headerTitleStyle: styles.headerTitle,
@@ -26,6 +29,7 @@ export default function App() {
             headerBackTitle: " ", // Custom text for the back button
           }}
         >
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Categories" component={CategoryPage} />
           <Stack.Screen
             name="Available Providers"
