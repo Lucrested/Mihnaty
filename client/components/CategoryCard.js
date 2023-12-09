@@ -23,32 +23,7 @@ const CategoryCard = ({ category }) => {
   );
 };
 
-// const CategoryCard = ({ category }) => {
-//   const navigation = useNavigation();
-//   return (
-//     <SafeAreaView style={(styles.shadow, styles.button)}>
-//       <TouchableOpacity
-//         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-//       >
-//         <SafeAreaView>
-//           <Image
-//             source={{ uri: category.categoryURL }} //Need to change the icons
-//             resizeMode="cover"
-//             style={{
-//               width: 60,
-//               height: 60,
-//             }}
-//           />
-//           <Text
-//           // style={{ marginTop: SIZES.base, color: COLORS.gray, ...FONTS.body3 }}
-//           >
-//             {category.categoryName}
-//           </Text>
-//         </SafeAreaView>
-//       </TouchableOpacity>
-//     </SafeAreaView>
-//   );
-// };
+
 
 const categoryStyles = StyleSheet.create({
   cardContainer: {
