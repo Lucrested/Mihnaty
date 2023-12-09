@@ -4,49 +4,31 @@ import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BottomSheet, Button, Icon } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-// const Tab = createBottomTabNavigator();
 
-// const Navbar = () => {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator
-//         initialRouteName="CategoryPage"
-//         tabBarOptions={{
-//           showLabel: false, // Hide tab labels
-//         }}
-//       >
-//         {[
-//           { name: "CategoryPage", icon: "home" },
-//           { name: "Calendar", icon: "calendar" },
-//           { name: "Search", icon: "search1" },
-//           { name: "AccountSettings", icon: "profile" },
-//         ].map((tab) => (
-//           <Tab.Screen
-//             key={tab.name}
-//             name={tab.name}
-//             options={{
-//               tabBarIcon: ({ color, size }) => (
-//                 <AntDesign name={tab.icon} size={size} color={color} />
-//               ),
-//             }}
-//           />
-//         ))}
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// };
 
 const Navbar = () => {
+
+  const navigation = useNavigation();
+
+  const handleHomeClick = () => {
+    navigation. navigate ("Categories");
+  };
+
   return (
     <View style={navBarStyles.container}>
       {[
-        { name: "Home", icon: "home" },
+        { name: "Home", icon: "home", onPress: handleHomeClick },
         { name: "Calendar", icon: "calendar" },
         { name: "Search", icon: "search1" },
         { name: "AccountSettings", icon: "profile" },
       ].map((tab) => (
-        <TouchableOpacity key={tab.name} style={navBarStyles.tab}>
+        <TouchableOpacity
+          key={tab.name}
+          style={navBarStyles.tab}
+          onPress={tab.onPress}
+        >
           <AntDesign name={tab.icon} size={24} color="black" />
         </TouchableOpacity>
       ))}
