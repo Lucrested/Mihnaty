@@ -93,7 +93,7 @@ const CategoryPage = () => {
     <View style={categoryList.row}>
       {item.map((category) => (
         <CategoryCard
-          key={category.id}
+          key={category.CategoryID}
           category={category}
           style={categoryList.item}
         />

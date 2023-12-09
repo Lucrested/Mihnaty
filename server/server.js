@@ -66,3 +66,22 @@ app.get("/api/providers", async (req, res) => {
     res.json(error);
   }
 });
+
+app.get("/api/timeslots/:ProviderID", async (req, res) => {
+  try {
+    const ProviderID = req.params.ProviderID;
+    const { data, error } = await supabase
+      .from("TimeSlot")
+      .select("*")
+      .filter("ProviderID", "eq", ProviderID);
+
+    console.log("Time Slot Data gotten: ", data);
+
+    if (error) throw error;
+
+    res.json(data);
+  } catch (error) {
+    console.error(error.message);
+    res.json(error);
+  }
+});
