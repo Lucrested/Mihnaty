@@ -96,11 +96,11 @@ const SectionListBasics = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: true });
   };
 
-  const handleClosePress = () => {
+  const handleClosePress = (ProviderID) => {
     setModalVisible({ ...modalVisible, [ProviderID]: false });
   };
 
-  const handleProviderPress = (ProviderID) => {
+  const handleProviderPress = () => {
     console.log("Second Provider id: ", ProviderID);
     setModalVisible({ ...modalVisible, [ProviderID]: false });
     navigation.navigate("Booking", { ProviderID });
