@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { View,Image, TextInput, TouchableOpacity, StyleSheet, Text, Alert} from "react-native";
-import { useNavigation } from '@react-navigation/native';
-import { COLORS, FONTS, SIZES, icons, images } from '../constants';
+import {
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  Alert,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import CategoryPage from "./CategoryPage";
 //import { supabase } from '../../server/db';
-
 
 const Login = () => {
   const navigation = useNavigation();
@@ -24,7 +31,7 @@ const Login = () => {
         email: email,
         password: password,
       });
-
+      console.log(data);
       if (error) {
         Alert.alert("Error", error.message);
       } else if (data) {
@@ -33,12 +40,18 @@ const Login = () => {
         if (user) {
           navigation.navigate("Categories");
         } else {
-          Alert.alert("Error", "An unexpected response occurred. Please try again later.");
+          Alert.alert(
+            "Error",
+            "An unexpected response occurred. Please try again later."
+          );
         }
       }
     } catch (error) {
-      //Alert.alert("Error", "An unexpected error occurred. Please try again later.");
-      navigation.navigate("Categories");
+      Alert.alert(
+        "Error",
+        "An unexpected error occurred. Please try again later."
+      );
+      // navigation.navigate("Categories");
     } finally {
       setLoading(false);
     }
@@ -54,7 +67,8 @@ const Login = () => {
 
     try {
       // Check if the user with the given email already exists
-      const { data: existingUser, error: existingUserError } = await supabase.auth.api.getUserByEmail(email);
+      const { data: existingUser, error: existingUserError } =
+        await supabase.auth.api.getUserByEmail(email);
 
       if (existingUserError) {
         Alert.alert("Error", existingUserError.message);
@@ -62,13 +76,17 @@ const Login = () => {
       }
 
       if (existingUser) {
-        Alert.alert("Error", "This email is already in use. Please choose another email or login.");
+        Alert.alert(
+          "Error",
+          "This email is already in use. Please choose another email or login."
+        );
       } else {
         // Email is not in use, proceed with creating a new account
-        const { data: newUser, error: signUpError } = await supabase.auth.signUp({
-          email: email,
-          password: password,
-        });
+        const { data: newUser, error: signUpError } =
+          await supabase.auth.signUp({
+            email: email,
+            password: password,
+          });
 
         if (signUpError) {
           Alert.alert("Error", signUpError.message);
@@ -78,7 +96,10 @@ const Login = () => {
         }
       }
     } catch (error) {
-      Alert.alert("Error", "An unexpected error occurred. Please try again later.");
+      Alert.alert(
+        "Error",
+        "An unexpected error occurred. Please try again later."
+      );
     } finally {
       setLoading(false);
     }
@@ -107,15 +128,23 @@ const Login = () => {
       <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.Btn} onPress={handleLogin} disabled={loading}>
+      <TouchableOpacity
+        style={styles.Btn}
+        onPress={handleLogin}
+        disabled={loading}
+      >
         <Text style={styles.Text}>LOGIN</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.Btn} onPress={handleSignUp} disabled={loading}>
+      <TouchableOpacity
+        style={styles.Btn}
+        onPress={handleSignUp}
+        disabled={loading}
+      >
         <Text style={styles.Text}>SIGN UP</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -135,7 +164,7 @@ const styles = StyleSheet.create({
     width: "75%",
     height: 50,
     marginBottom: 25,
-    paddingHorizontal: 20, 
+    paddingHorizontal: 20,
     justifyContent: "center",
   },
   TextInput: {

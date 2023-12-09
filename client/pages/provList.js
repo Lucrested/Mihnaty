@@ -79,7 +79,7 @@ const SectionListBasics = () => {
               </Pressable>
               <Pressable
                 style={styles.buttonX}
-                onPress={() => handleClosePress(ProviderID)}
+                onPress={() => handleClosePress()}
               >
                 <Text style={styles.textStyle}>X</Text>
               </Pressable>
@@ -96,7 +96,7 @@ const SectionListBasics = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: true });
   };
 
-  const handleClosePress = (ProviderID) => {
+  const handleClosePress = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: false });
   };
 
@@ -111,7 +111,7 @@ const SectionListBasics = () => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.19.142:3000/api/providers"
+        "http://10.121.46.79:3000/api/providers"
       );
 
       if (provListResponse.ok) {
