@@ -14,7 +14,7 @@ import {
   Modal,
   Pressable,
 } from "react-native";
-import { COLORS, icons, images, SIZES } from "../constants";
+import { COLORS, icons, images, SIZES, FONTS } from "../constants";
 import { useNavigation } from "@react-navigation/core";
 
 
@@ -23,6 +23,8 @@ import { useNavigation } from "@react-navigation/core";
 const SectionListBasics = () => {
   const [providers, setProviders] = useState([]);
   const navigation = useNavigation();
+
+  //POP up
 
   const Pop = ({ ProviderID, modalVisible, setModalVisible }) => {
     return (
@@ -36,7 +38,36 @@ const SectionListBasics = () => {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Provider Info</Text>
+            <View>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={styles.shadow}>
+                            <Image
+                                source={images.skiVilla}
+                                resizeMode="cover"
+                                style={{
+                                    width: 70,
+                                    height: 70,
+                                    borderRadius: 10,
+                                }}
+                            />
+                        </View>
+
+                        <View style={{ marginHorizontal: SIZES.radius, justifyContent: 'space-around' }}>
+                            <Text style={{ ...FONTS.h3 }}>Provider Name</Text>
+                            <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>Category</Text>
+
+                            <StarReview
+                                rate={4.5}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginTop: SIZES.radius }}>
+                        <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
+                            More info and description if needed
+                        </Text>
+                    </View>
+                </View>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => handleProviderPress(ProviderID)}>
@@ -56,7 +87,7 @@ const SectionListBasics = () => {
 
   const [modalVisible, setModalVisible] = useState({});
 
-  const handlePopPress = (ProviderID) => {
+  const handlePopPress = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: true });
   };
 
@@ -69,6 +100,8 @@ const SectionListBasics = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: false });
     navigation. navigate ("Booking", { ProviderID });
   };
+
+  //FETCHING DATA
 
   const fetchSections = async () => {
     try {
@@ -102,6 +135,8 @@ const SectionListBasics = () => {
     fetchSections();
   }, []);
 
+
+  //RENDERING providers
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -148,6 +183,84 @@ const SectionListBasics = () => {
   
 };
 
+//STAR RATING CALCULATOR
+const StarReview = ({ rate }) => {
+  var starComponents = [];
+  var fullStar = Math.floor(rate)
+  var noStar = Math.floor(5 - rate)
+  var halfStar = 5 - fullStar - noStar
+
+  // Full Star
+  for (var i = 0; i < fullStar; i++) {
+      starComponents.push(
+          <Image
+              key={`full-${i}`}
+              source={icons.starFull}
+              resizeMode="cover"
+              style={{
+                  width: 20,
+                  height: 20,
+              }}
+          />
+      )
+  }
+
+  // Half Star
+  for (var i = 0; i < halfStar; i++) {
+      starComponents.push(
+          <Image
+              key={`half-${i}`}
+              source={icons.starHalf}
+              resizeMode="cover"
+              style={{
+                  width: 20,
+                  height: 20,
+              }}
+          />
+      )
+  }
+
+  // No Star
+  for (var i = 0; i < noStar; i++) {
+      starComponents.push(
+          <Image
+              key={`empty-${i}`}
+              source={icons.starEmpty}
+              resizeMode="cover"
+              style={{
+                  width: 20,
+                  height: 20,
+              }}
+          />
+      )
+  }
+
+  return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {starComponents}
+          <Text style={{ marginLeft: SIZES.base, color: COLORS.gray, ...FONTS.body3 }}>{rate}</Text>
+      </View>
+  )
+}
+
+//provider image
+
+const IconLabel = ({ icon, label }) => {
+  return (
+      <View style={{ alignItems: 'center' }}>
+          <Image
+              source={icon}
+              resizeMode="cover"
+              style={{
+                  width: 50,
+                  height: 50,
+              }}
+          />
+          <Text style={{ marginTop: SIZES.padding, color: COLORS.gray, ...FONTS.h3 }}>{label}</Text>
+      </View>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -176,13 +289,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 10,
   },
   modalView: {
     margin: 40, // Increased margin
     backgroundColor: 'white',
     borderRadius: 30, // Increased border radius
-    padding: 50, // Increased padding
+    padding: 30, // Increased padding
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {

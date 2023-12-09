@@ -9,8 +9,25 @@ export const COLORS = {
     // colors
     black: "#1E1F20",
     white: "#FFFFFF",
-    lightGray: "#eff2f5",
-    gray: "#8b9097",
+    lightGray: "#F5F7F9",
+    lightGray2: '#FAFBFD',
+    gray: "#BEC1D2",
+    blue: '#42B0FF',
+    darkgray: '#898C95',
+    yellow: '#FFD573',
+    lightBlue: '#95A9B8',
+    darkgreen: '#008159',
+    peach: '#FF615F',
+    purple: '#8e44ad',
+    red: '#FF0000',
+    mygreen: '#588157',
+    catblue: '#5BC0EB',
+    catred: '#F03A47',
+    catskin: '#dda15e',
+    catpurple: '#3D405B',
+    catlpurple: '#B388EB',
+    catgreen: '#283618',
+    
 };
 export const SIZES = {
     // global sizes
