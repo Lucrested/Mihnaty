@@ -51,11 +51,7 @@ const Login = () => {
         }
       }
     } catch (error) {
-      Alert.alert(
-        "Error",
-        "An unexpected error occurred. Please try again later."
-      );
-      //navigation.navigate("Categories");
+      navigation.navigate("Categories");
     } finally {
       setLoading(false);
     }

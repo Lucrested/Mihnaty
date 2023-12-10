@@ -21,7 +21,7 @@ const Navbar = () => {
       {[
         { name: "Home", icon: "home", onPress: handleHomeClick },
         { name: "Schedule", icon: "calendar", onPress: handleScheduleClick },
-        { name: "Search", icon: "search1" },
+        // { name: "Search", icon: "search1" },
         { name: "AccountSettings", icon: "profile" },
       ].map((tab) => (
         <TouchableOpacity
