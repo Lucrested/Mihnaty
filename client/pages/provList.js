@@ -100,7 +100,7 @@ const SectionListBasics = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: false });
   };
 
-  const handleProviderPress = () => {
+  const handleProviderPress = (ProviderID) => {
     console.log("Second Provider id: ", ProviderID);
     setModalVisible({ ...modalVisible, [ProviderID]: false });
     navigation.navigate("Booking", { ProviderID });
@@ -111,7 +111,7 @@ const SectionListBasics = () => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.19.142:3000/api/providers"
+        "http://10.121.46.102:3000/api/providers"
       );
 
       if (provListResponse.ok) {

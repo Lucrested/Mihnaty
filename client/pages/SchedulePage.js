@@ -8,7 +8,7 @@ const UserSchedulePage = ({ userId }) => {
     const getUserSchedule = async () => {
       try {
         const response = await fetch(
-          `http://10.121.46.79:3000/api/userschedule/${userId}`
+          `http://10.121.46.102:3000/api/userschedule/${userId}`
         );
         if (response.ok) {
           const data = await response.json();

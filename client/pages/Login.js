@@ -20,6 +20,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+
+  
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please enter both email and password.");
@@ -31,7 +33,7 @@ const Login = () => {
         email: email,
         password: password,
       });
-      console.log(data);
+
       if (error) {
         Alert.alert("Error", error.message);
       } else if (data) {
@@ -47,41 +49,30 @@ const Login = () => {
         }
       }
     } catch (error) {
-      // Alert.alert(
-      //   "Error",
-      //   "An unexpected error occurred. Please try again later."
-      // );
-      navigation.navigate("Categories");
+       Alert.alert(
+         "Error",
+         "An unexpected error occurred. Please try again later."
+       );
+      //navigation.navigate("Categories");
     } finally {
       setLoading(false);
     }
   };
 
+  
+
+
   const handleSignUp = async () => {
+
     if (!email || !password) {
       Alert.alert("Error", "Please enter both email and password.");
       return;
     }
 
     setLoading(true);
-
+    
     try {
-      // Check if the user with the given email already exists
-      const { data: existingUser, error: existingUserError } =
-        await supabase.auth.api.getUserByEmail(email);
-
-      if (existingUserError) {
-        Alert.alert("Error", existingUserError.message);
-        return;
-      }
-
-      if (existingUser) {
-        Alert.alert(
-          "Error",
-          "This email is already in use. Please choose another email or login."
-        );
-      } else {
-        // Email is not in use, proceed with creating a new account
+        
         const { data: newUser, error: signUpError } =
           await supabase.auth.signUp({
             email: email,
@@ -94,7 +85,7 @@ const Login = () => {
           Alert.alert("Success", "Sign up successful! You can now login.");
           navigation.goBack(); // Navigate back to the login screen
         }
-      }
+
     } catch (error) {
       Alert.alert(
         "Error",
