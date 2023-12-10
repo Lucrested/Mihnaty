@@ -14,31 +14,6 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-const testSupabaseConnection = async () => {
-  try {
-    // Make a simple query to check the connection
-    const { data, error } = await supabase.from("test").select("*");
-    if (error) {
-      return {
-        success: false,
-        message: "Supabase connection error",
-        error: error.message,
-      };
-    } else {
-      return {
-        success: true,
-        message: "Supabase connection is established",
-      };
-    }
-  } catch (err) {
-    return {
-      success: false,
-      message: "Error testing Supabase connection",
-      error: err.message,
-    };
-  }
-};
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}.`);
 });
@@ -90,12 +65,42 @@ app.get("/api/userschedule/:userID", async (req, res) => {
   try {
     const userID = req.params.userID;
 
+    // const { data, error } = await supabase
+    //   .from("UserSchedule")
+    //   .select(
+    //     `
+    //     UserSchedule.ScheduleID,
+    //     UserSchedule.UserID,
+    //     UserSchedule.TimeSlotID,
+    //     TimeSlot.Date,
+    //     TimeSlot.StartTime,
+    //     TimeSlot.EndTime
+    //   `
+    //   )
+    //   .eq("UserSchedule.UserID", userID)
+    //   .join({
+    //     table: "TimeSlot",
+    //     on: ["UserSchedule.TimeSlotID", "TimeSlot.TimeSlotID"],
+    //   });
+
+    // if (error) throw error;
+    // console.log(data);
+
+    // res.json(data);
+
     const { data, error } = await supabase
       .from("UserSchedule")
-      .select("*")
+      .select(
+        `
+        ScheduleID,
+        UserID,
+        TimeSlot (Date, StartTime, EndTime)
+      `
+      )
       .eq("UserID", userID);
 
     if (error) throw error;
+    console.log(data);
 
     res.json(data);
   } catch (error) {
@@ -106,23 +111,19 @@ app.get("/api/userschedule/:userID", async (req, res) => {
 app.post("/api/userschedule/add-timeslot", async (req, res) => {
   try {
     const { UserID, TimeSlotID, BookingDate } = req.body;
-
-    const { data, error } = await supabase.from("UserSchedule").upsert(
-      [
-        {
-          UserID: UserID,
-          TimeSlotID: TimeSlotID,
-          BookingDate: BookingDate,
-        },
-      ],
-      { onConflict: ["UserID", "TimeSlotID"] }
-    );
+    // const { TimeSlotID, BookingDate } = req.body;
+    const { data, error } = await supabase.from("UserSchedule").upsert([
+      {
+        UserID: UserID,
+        TimeSlotID: TimeSlotID,
+      },
+    ]);
 
     if (error) throw error;
 
     res.json({
       message: "Time slot added to user Schedule",
-      ScheduleID: data[0].ScheduleID,
+      // ScheduleID: data[0].ScheduleID,
     });
   } catch (error) {
     console.error(error.message);

@@ -25,14 +25,15 @@ const TimeSlotList = ({ timeSlots, onTimeSlotPress }) => {
       data={timeSlots}
       keyExtractor={(item) => item.TimeSlotID.toString()}
       renderItem={renderTimeSlot}
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
+      numColumns={3} // Set the number of columns to 3
+      columnWrapperStyle={styles.row} // Style for the row
     />
   );
 };
 
 const styles = StyleSheet.create({
   timeSlotContainer: {
+    flex: 1,
     padding: 10,
     margin: 5,
     borderRadius: 8,
@@ -40,13 +41,17 @@ const styles = StyleSheet.create({
     borderColor: "#ddd",
     backgroundColor: "#fff",
   },
-  timeSlotText: {
+  timeitemText: {
     fontSize: 16,
     fontWeight: "bold",
   },
   dateText: {
     fontSize: 14,
     color: "#777",
+  },
+  row: {
+    flex: 1,
+    justifyContent: "space-between",
   },
 });
 

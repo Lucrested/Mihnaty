@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { COLORS, icons, images, SIZES, FONTS } from "../constants";
 import { useNavigation } from "@react-navigation/core";
-import {supabase} from "../supabase"
+import { supabase } from "../supabase";
 
 const SectionListBasics = ({ route }) => {
   const { category } = route.params;
@@ -25,7 +25,15 @@ const SectionListBasics = ({ route }) => {
 
   //POP up
 
-  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating, description, Pname }) => {
+  const Pop = ({
+    ProviderID,
+    modalVisible,
+    setModalVisible,
+    picture,
+    rating,
+    description,
+    Pname,
+  }) => {
     console.log("Description in Modal:", description);
     return (
       <View style={styles.centeredView}>
@@ -52,7 +60,7 @@ const SectionListBasics = ({ route }) => {
                       }}
                     />
                   </View>
-  
+
                   <View
                     style={{
                       marginHorizontal: SIZES.radius,
@@ -60,15 +68,22 @@ const SectionListBasics = ({ route }) => {
                     }}
                   >
                     <Text style={{ ...FONTS.h3 }}>{Pname}</Text>
-  
+
                     <StarReview rate={rating} />
                   </View>
                 </View>
-  
+
                 <View style={{ marginTop: SIZES.radius }}>
-                  <Text style={{ color: COLORS.gray, ...FONTS.body3, marginBottom: 20 }}>
+                  <Text
+                    style={{
+                      color: COLORS.gray,
+                      ...FONTS.body3,
+                      marginBottom: 20,
+                    }}
+                  >
                     {description}
-                  </Text>
+                             
+                  </Text>
                 </View>
               </View>
               <Pressable
@@ -110,10 +125,10 @@ const SectionListBasics = ({ route }) => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.46.102:3000/api/providers"
+        "http://10.121.46.79:3000/api/providers"
       );
       console.log("Selected Category:", category);
-  
+
       if (provListResponse.ok) {
         const providersData = await provListResponse.json();
         console.log("All Providers Data:", providersData);
@@ -135,42 +150,42 @@ const SectionListBasics = ({ route }) => {
         // Fetch image URL and rating for each provider from Supabase
         const promises = filteredProviders.map(async (provider) => {
           const { data: imagesData, error: imagesError } = await supabase
-            .from('provider-test')
-            .select('pic_url')
-            .eq('ProviderID', provider.ProviderID)
+            .from("provider-test")
+            .select("pic_url")
+            .eq("ProviderID", provider.ProviderID)
             .single();
 
           const { data: ratingsData, error: ratingsError } = await supabase
-            .from('provider-test')
-            .select('Rating')
-            .eq('ProviderID', provider.ProviderID)
+            .from("provider-test")
+            .select("Rating")
+            .eq("ProviderID", provider.ProviderID)
             .single();
 
           const { data: nameData, error: nameError } = await supabase
-            .from('provider-test')
-            .select('name')
-            .eq('ProviderID', provider.ProviderID)
+            .from("provider-test")
+            .select("name")
+            .eq("ProviderID", provider.ProviderID)
             .single();
-        
-          const { data: descriptionData, error: descriptionError } = await supabase
-            .from('provider-test')
-            .select('Description')
-            .eq('ProviderID', provider.ProviderID)
-            .single();
-          
+
+          const { data: descriptionData, error: descriptionError } =
+            await supabase
+              .from("provider-test")
+              .select("Description")
+              .eq("ProviderID", provider.ProviderID)
+              .single();
+
           return {
             ...provider,
-            picture: imagesData?.pic_url || '',
+            picture: imagesData?.pic_url || "",
             rating: ratingsData?.Rating || 0,
-            Pname: nameData?.name || '',
-            description: descriptionData?.Description || '', // Check for null
+            Pname: nameData?.name || "",
+            description: descriptionData?.Description || "", // Check for null
           };
-          
         });
 
         // Wait for all promises to resolve
         const updatedProviders = await Promise.all(promises);
-        
+
         // Update state with the fetched data
         setProviders(updatedProviders);
       } else {
@@ -201,7 +216,7 @@ const SectionListBasics = ({ route }) => {
               const existingSection = acc.find(
                 (section) => section.title === `${item.Rating} ★`
               );
-  
+
               if (existingSection) {
                 existingSection.data.push(item);
               } else {
@@ -210,10 +225,9 @@ const SectionListBasics = ({ route }) => {
                   data: [item],
                 });
               }
-  
+
               return acc;
-            }, [])
-            } // Reverse the order of sections
+            }, [])} // Reverse the order of sections
           renderItem={({ item }) => (
             <View>
               <TouchableOpacity onPress={() => handlePopPress(item.ProviderID)}>
@@ -243,7 +257,6 @@ const SectionListBasics = ({ route }) => {
       </ScrollView>
     </SafeAreaView>
   );
-  
 };
 
 //STAR RATING CALCULATOR
@@ -343,7 +356,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     fontSize: 14,
     fontWeight: "bold",
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
   },
   item: {
     padding: 10,
@@ -412,7 +425,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: 1,
-    backgroundColor: '#ccc', // Grey color
+    backgroundColor: "#ccc", // Grey color
     marginVertical: 10,
   },
 });

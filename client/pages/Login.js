@@ -11,17 +11,17 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import CategoryPage from "./CategoryPage";
-import {supabase} from "../supabase"
+import { supabase } from "../supabase";
+import { useAuth } from "../components/AuthContext";
 
 const Login = () => {
   const navigation = useNavigation();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-
-  
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please enter both email and password.");
@@ -40,6 +40,8 @@ const Login = () => {
         const user = data.user;
 
         if (user) {
+          console.log("Logging in:", user.id);
+          login(user);
           navigation.navigate("Categories");
         } else {
           Alert.alert(
@@ -49,43 +51,36 @@ const Login = () => {
         }
       }
     } catch (error) {
-       Alert.alert(
-         "Error",
-         "An unexpected error occurred. Please try again later."
-       );
+      Alert.alert(
+        "Error",
+        "An unexpected error occurred. Please try again later."
+      );
       //navigation.navigate("Categories");
     } finally {
       setLoading(false);
     }
   };
 
-  
-
-
   const handleSignUp = async () => {
-
     if (!email || !password) {
       Alert.alert("Error", "Please enter both email and password.");
       return;
     }
 
     setLoading(true);
-    
+
     try {
-        
-        const { data: newUser, error: signUpError } =
-          await supabase.auth.signUp({
-            email: email,
-            password: password,
-          });
+      const { data: newUser, error: signUpError } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
 
-        if (signUpError) {
-          Alert.alert("Error", signUpError.message);
-        } else {
-          Alert.alert("Success", "Sign up successful! You can now login.");
-          navigation.goBack(); // Navigate back to the login screen
-        }
-
+      if (signUpError) {
+        Alert.alert("Error", signUpError.message);
+      } else {
+        Alert.alert("Success", "Sign up successful! You can now login.");
+        navigation.goBack(); // Navigate back to the login screen
+      }
     } catch (error) {
       Alert.alert(
         "Error",

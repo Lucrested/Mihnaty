@@ -6,21 +6,21 @@ import { BottomSheet, Button, Icon } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-
-
 const Navbar = () => {
-
   const navigation = useNavigation();
 
   const handleHomeClick = () => {
-    navigation. navigate ("Categories");
+    navigation.navigate("Categories");
+  };
+  const handleScheduleClick = () => {
+    navigation.navigate("Schedule");
   };
 
   return (
     <View style={navBarStyles.container}>
       {[
         { name: "Home", icon: "home", onPress: handleHomeClick },
-        { name: "Calendar", icon: "calendar" },
+        { name: "Schedule", icon: "calendar", onPress: handleScheduleClick },
         { name: "Search", icon: "search1" },
         { name: "AccountSettings", icon: "profile" },
       ].map((tab) => (

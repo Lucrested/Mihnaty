@@ -17,7 +17,7 @@ const CategoryPage = () => {
   const getCategories = async () => {
     try {
       const categoryResponse = await fetch(
-        "http://10.121.46.102:3000/api/categories"
+        "http://10.121.46.79:3000/api/categories"
       );
       if (categoryResponse.ok) {
         console.log("entered ok");
@@ -38,8 +38,6 @@ const CategoryPage = () => {
     console.log(categories.toString());
   }, []);
 
-
-
   const renderCategoryRow = ({ item }) => (
     <View style={categoryList.row}>
       {item.map((category) => (
@@ -54,14 +52,14 @@ const CategoryPage = () => {
 
   const groupedCategories = categories.reduce((result, category, index) => {
     const numRows = Math.ceil(categories.length / 3); // Calculate the number of rows
-  
+
     const row = Math.floor(index / numRows);
     const col = index % numRows;
-  
+
     if (!result[row]) {
       result[row] = [];
     }
-  
+
     result[row][col] = category;
     return result;
   }, []);
