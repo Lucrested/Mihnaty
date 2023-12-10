@@ -7,11 +7,16 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const CategoryCard = ({ category }) => {
   const navigation = useNavigation();
+
   return (
     <SafeAreaView style={[categoryStyles.cardContainer]}>
       <TouchableOpacity
         style={categoryStyles.touchable}
-        onPress={() => navigation.navigate("Available Providers")}
+        onPress={() =>
+          navigation.navigate("Available Providers", {
+            category: category,  // Pass the selected category
+          })
+        }
       >
         <Image
           style={categoryStyles.categoryImage}

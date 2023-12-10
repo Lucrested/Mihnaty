@@ -18,13 +18,15 @@ import { COLORS, icons, images, SIZES, FONTS } from "../constants";
 import { useNavigation } from "@react-navigation/core";
 import {supabase} from "../supabase"
 
-const SectionListBasics = () => {
+const SectionListBasics = ({ route }) => {
+  const { category } = route.params;
   const [providers, setProviders] = useState([]);
   const navigation = useNavigation();
 
   //POP up
 
-  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating }) => {
+  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating, description, Pname }) => {
+    console.log("Description in Modal:", description);
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -57,26 +59,23 @@ const SectionListBasics = () => {
                       justifyContent: "space-around",
                     }}
                   >
-                    <Text style={{ ...FONTS.h3 }}>Provider Name</Text>
-                    <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
-                      Category
-                    </Text>
+                    <Text style={{ ...FONTS.h3 }}>{Pname}</Text>
   
                     <StarReview rate={rating} />
                   </View>
                 </View>
   
                 <View style={{ marginTop: SIZES.radius }}>
-                  <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
-                    More info and description if needed
-                  </Text>
+                  <Text style={{ color: COLORS.gray, ...FONTS.body3, marginBottom: 20 }}>
+                    {description}
+                  </Text>
                 </View>
               </View>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => handleProviderPress(ProviderID)}
               >
-                <Text style={styles.textStyle}>Select </Text>
+                <Text style={styles.textStyle}>Select</Text>
               </Pressable>
               <Pressable
                 style={styles.buttonX}
@@ -113,20 +112,28 @@ const SectionListBasics = () => {
       const provListResponse = await fetch(
         "http://10.121.46.102:3000/api/providers"
       );
-
+      console.log("Selected Category:", category);
+  
       if (provListResponse.ok) {
         const providersData = await provListResponse.json();
+        console.log("All Providers Data:", providersData);
+
+        const filteredProviders = providersData.filter(
+          (provider) => provider.Category === category.CategoryID
+        );
+
+        console.log("Filtered Providers:", filteredProviders);
 
         // Initialize modalVisible state for each provider
         setModalVisible(
-          providersData.reduce((acc, provider) => {
+          filteredProviders.reduce((acc, provider) => {
             acc[provider.ProviderID] = false;
             return acc;
           }, {})
         );
 
         // Fetch image URL and rating for each provider from Supabase
-        const promises = providersData.map(async (provider) => {
+        const promises = filteredProviders.map(async (provider) => {
           const { data: imagesData, error: imagesError } = await supabase
             .from('provider-test')
             .select('pic_url')
@@ -139,11 +146,26 @@ const SectionListBasics = () => {
             .eq('ProviderID', provider.ProviderID)
             .single();
 
+          const { data: nameData, error: nameError } = await supabase
+            .from('provider-test')
+            .select('name')
+            .eq('ProviderID', provider.ProviderID)
+            .single();
+        
+          const { data: descriptionData, error: descriptionError } = await supabase
+            .from('provider-test')
+            .select('Description')
+            .eq('ProviderID', provider.ProviderID)
+            .single();
+          
           return {
             ...provider,
             picture: imagesData?.pic_url || '',
             rating: ratingsData?.Rating || 0,
+            Pname: nameData?.name || '',
+            description: descriptionData?.Description || '', // Check for null
           };
+          
         });
 
         // Wait for all promises to resolve
@@ -165,7 +187,7 @@ const SectionListBasics = () => {
 
   useEffect(() => {
     fetchSections();
-  }, []);
+  }, [category]);
 
   //RENDERING providers
   return (
@@ -208,6 +230,8 @@ const SectionListBasics = () => {
                 }
                 picture={item.pic_url}
                 rating={item.Rating}
+                Pname={item.name}
+                description={item.Description}
               />
             </View>
           )}
