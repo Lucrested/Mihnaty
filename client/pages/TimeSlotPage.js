@@ -13,7 +13,7 @@ import { useRoute } from "@react-navigation/native";
 const handleTimeSlotPress = async (selectedTimeSlot) => {
   try {
     const response = await fetch(
-      "http://10.121.46.102:3000/api/userschedule/add-timeslot",
+      "http://10.126.10.237:3000/api/userschedule/add-timeslot",
       {
         method: "POST",
         headers: {

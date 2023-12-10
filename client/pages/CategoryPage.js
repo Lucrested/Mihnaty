@@ -17,7 +17,7 @@ const CategoryPage = () => {
   const getCategories = async () => {
     try {
       const categoryResponse = await fetch(
-        "http://10.121.46.102:3000/api/categories"
+        "http://10.126.10.237:3000/api/categories"
       );
       if (categoryResponse.ok) {
         console.log("entered ok");

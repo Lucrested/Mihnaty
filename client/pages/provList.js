@@ -24,7 +24,7 @@ const SectionListBasics = () => {
 
   //POP up
 
-  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating }) => {
+  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating, description, Pname }) => {
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -57,7 +57,7 @@ const SectionListBasics = () => {
                       justifyContent: "space-around",
                     }}
                   >
-                    <Text style={{ ...FONTS.h3 }}>Provider Name</Text>
+                    <Text style={{ ...FONTS.h3 }}> {Pname} </Text>
                     <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
                       Category
                     </Text>
@@ -67,8 +67,8 @@ const SectionListBasics = () => {
                 </View>
   
                 <View style={{ marginTop: SIZES.radius }}>
-                  <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
-                    More info and description if needed
+                  <Text style={{ color: COLORS.gray, ...FONTS.body3, marginBottom: 20 }}>
+                    {description}
                   </Text>
                 </View>
               </View>
@@ -111,7 +111,7 @@ const SectionListBasics = () => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.46.102:3000/api/providers"
+        "http://10.126.10.237:3000/api/providers"
       );
 
       if (provListResponse.ok) {
@@ -125,29 +125,45 @@ const SectionListBasics = () => {
           }, {})
         );
 
-        // Fetch image URL and rating for each provider from Supabase
+        // Fetch image URL, rating, name, and description for each provider from Supabase
         const promises = providersData.map(async (provider) => {
-          const { data: imagesData, error: imagesError } = await supabase
+          const { data: imageData, error: imageError } = await supabase
             .from('provider-test')
             .select('pic_url')
             .eq('ProviderID', provider.ProviderID)
             .single();
-
-          const { data: ratingsData, error: ratingsError } = await supabase
+        
+          const { data: ratingData, error: ratingError } = await supabase
             .from('provider-test')
             .select('Rating')
             .eq('ProviderID', provider.ProviderID)
             .single();
-
+        
+          const { data: nameData, error: nameError } = await supabase
+            .from('provider-test')
+            .select('name')
+            .eq('ProviderID', provider.ProviderID)
+            .single();
+        
+          const { data: descriptionData, error: descriptionError } = await supabase
+            .from('provider-test')
+            .select('Description')
+            .eq('ProviderID', provider.ProviderID)
+            .single();
+        
           return {
             ...provider,
-            picture: imagesData?.pic_url || '',
-            rating: ratingsData?.Rating || 0,
+            picture: imageData?.pic_url || '',
+            rating: ratingData?.Rating || 0,
+            Pname: nameData?.name || '',
+            description: descriptionData?.Description || '', // make sure the property name is correct
           };
         });
+        
 
         // Wait for all promises to resolve
         const updatedProviders = await Promise.all(promises);
+
         
         // Update state with the fetched data
         setProviders(updatedProviders);
@@ -208,6 +224,9 @@ const SectionListBasics = () => {
                 }
                 picture={item.pic_url}
                 rating={item.Rating}
+                Pname={item.name}             
+                description={item.Description}
+
               />
             </View>
           )}
