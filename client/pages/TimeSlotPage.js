@@ -24,6 +24,7 @@ const TimeSlotPage = () => {
       const userID = user?.id;
 
       console.log("Userid in timeslotpage: ", userID);
+      console.log("Selected Time Slot", selectedTimeSlot);
 
       const response = await fetch(
         "http://10.121.46.79:3000/api/userschedule/add-timeslot",
@@ -34,8 +35,7 @@ const TimeSlotPage = () => {
           },
           body: JSON.stringify({
             UserID: userID,
-            TimeSlotId: selectedTimeSlot.TimeSlotID,
-            BookingDate: selectedTimeSlot.BookingDate,
+            TimeSlotID: selectedTimeSlot.TimeSlotID,
           }),
         }
       );
