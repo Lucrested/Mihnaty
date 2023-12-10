@@ -171,24 +171,27 @@ const SectionListBasics = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text style={styles.title}>Ratings</Text>
+        <Text style={styles.title}>By Ratings</Text>
         <SectionList
-          sections={providers.reduce((acc, item) => {
-            const existingSection = acc.find(
-              (section) => section.title === `${item.Rating} ★`
-            );
-
-            if (existingSection) {
-              existingSection.data.push(item);
-            } else {
-              acc.push({
-                title: `${item.Rating} ★`,
-                data: [item],
-              });
-            }
-
-            return acc;
-          }, [])}
+          sections={providers
+            .sort((a, b) => b.Rating - a.Rating) // Sort providers by rating in descending order
+            .reduce((acc, item) => {
+              const existingSection = acc.find(
+                (section) => section.title === `${item.Rating} ★`
+              );
+  
+              if (existingSection) {
+                existingSection.data.push(item);
+              } else {
+                acc.push({
+                  title: `${item.Rating} ★`,
+                  data: [item],
+                });
+              }
+  
+              return acc;
+            }, [])
+            } // Reverse the order of sections
           renderItem={({ item }) => (
             <View>
               <TouchableOpacity onPress={() => handlePopPress(item.ProviderID)}>
@@ -196,14 +199,15 @@ const SectionListBasics = () => {
                   <Text style={styles.item}>{item.name}</Text>
                 </View>
               </TouchableOpacity>
+              {/* <View style={styles.separator} /> */}
               <Pop
                 ProviderID={item.ProviderID}
                 modalVisible={modalVisible[item.ProviderID]}
                 setModalVisible={(value) =>
                   setModalVisible({ ...modalVisible, [item.ProviderID]: value })
                 }
-                picture={item.pic_url} // Pass the picture URL from the fetched data
-                rating={item.Rating}   // Pass the rating from the fetched data
+                picture={item.pic_url}
+                rating={item.Rating}
               />
             </View>
           )}
@@ -215,6 +219,7 @@ const SectionListBasics = () => {
       </ScrollView>
     </SafeAreaView>
   );
+  
 };
 
 //STAR RATING CALCULATOR
@@ -314,7 +319,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     fontSize: 14,
     fontWeight: "bold",
-    backgroundColor: "rgba(247,247,247,1.0)",
+    backgroundColor: 'lightgrey',
   },
   item: {
     padding: 10,
@@ -324,8 +329,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20, // Change the font size for the title
     fontWeight: "bold",
-    marginBottom: 5,
+    marginBottom: 10, // Adjust the value to add more space at the bottom
+    marginTop: 10, // Adjust the value to add more space at the top
     lineHeight: 30,
+    marginLeft: 10, // Adjust the value to move it to the right
   },
   centeredView: {
     flex: 1,
@@ -378,6 +385,11 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#ccc', // Grey color
+    marginVertical: 10,
   },
 });
 

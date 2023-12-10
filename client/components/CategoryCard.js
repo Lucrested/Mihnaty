@@ -27,57 +27,32 @@ const CategoryCard = ({ category }) => {
 
 const categoryStyles = StyleSheet.create({
   cardContainer: {
-    borderRadius: 10,
+    borderRadius: 15,
+    overflow: "hidden",
     shadowColor: "black",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 5,
-    padding: 10,
     margin: 10,
-    flexDirection: "column",
-    alignItems: "center",
+    width: 150, // Set a fixed width for the container
+  },
+  touchable: {
+    borderRadius: 15,
+    overflow: "hidden",
   },
   categoryImage: {
-    width: 100, // Set the desired width for your image
-    height: 100, // Set the desired height for your image
-    borderRadius: 50, // To make it circular, adjust as needed
+    width: "100%",
+    height: 150,
+    borderRadius: 15,
   },
   categoryName: {
     marginTop: 10,
     fontSize: 16,
     fontWeight: "bold",
-  },
-  touchable: {
-    justifyContent: "center",
-    alignItems: "center",
+    textAlign: "center",
   },
 });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.white,
-  },
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-  },
-  button: {
-    width: 60,
-    height: 60,
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 15,
-  },
-});
 
 export default CategoryCard;

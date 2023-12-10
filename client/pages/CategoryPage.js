@@ -53,11 +53,16 @@ const CategoryPage = () => {
   );
 
   const groupedCategories = categories.reduce((result, category, index) => {
-    const row = Math.floor(index / 3);
+    const numRows = Math.ceil(categories.length / 3); // Calculate the number of rows
+  
+    const row = Math.floor(index / numRows);
+    const col = index % numRows;
+  
     if (!result[row]) {
       result[row] = [];
     }
-    result[row].push(category);
+  
+    result[row][col] = category;
     return result;
   }, []);
 
