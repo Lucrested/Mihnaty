@@ -106,7 +106,7 @@ app.get("/api/userschedule/:userID", async (req, res) => {
 app.post("/api/userschedule/add-timeslot", async (req, res) => {
   try {
     const { UserID, TimeSlotID, BookingDate } = req.body;
-
+    // const { TimeSlotID, BookingDate } = req.body;
     const { data, error } = await supabase.from("UserSchedule").upsert(
       [
         {

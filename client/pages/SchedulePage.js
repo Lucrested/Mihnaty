@@ -28,7 +28,7 @@ const UserSchedulePage = ({ userId }) => {
     <View>
       {userSchedule.map((scheduleItem) => (
         <View key={scheduleItem.TimeSlotID}>
-          <Text>{`Date: ${scheduleItem.Date}`}</Text>
+          <Text>{`Date: ${scheduleItem.BookingDate}`}</Text>
           <Text>{`Time: ${scheduleItem.StartTime} - ${scheduleItem.EndTime}`}</Text>
         </View>
       ))}

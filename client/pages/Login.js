@@ -11,10 +11,12 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { COLORS, FONTS, SIZES, icons, images } from "../constants";
 import CategoryPage from "./CategoryPage";
-import {supabase} from "../supabase"
+import { supabase } from "../supabase";
+import { useAuth } from "../components/AuthContext";
 
 const Login = () => {
   const navigation = useNavigation();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,13 +33,15 @@ const Login = () => {
         email: email,
         password: password,
       });
-      console.log(data);
+
       if (error) {
         Alert.alert("Error", error.message);
       } else if (data) {
         const user = data.user;
 
         if (user) {
+          console.log("Logging in:", user.id);
+          login(user);
           navigation.navigate("Categories");
         } else {
           Alert.alert(
@@ -47,10 +51,7 @@ const Login = () => {
         }
       }
     } catch (error) {
-      // Alert.alert(
-      //   "Error",
-      //   "An unexpected error occurred. Please try again later."
-      // );
+      console.error("Login error:", error);
       navigation.navigate("Categories");
     } finally {
       setLoading(false);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -9,44 +9,58 @@ import {
 } from "react-native";
 import TimeSlotList from "../components/TimeSlotList";
 import { useRoute } from "@react-navigation/native";
-
-const handleTimeSlotPress = async (selectedTimeSlot) => {
-  try {
-    const response = await fetch(
-      "http://10.121.46.79:3000/api/userschedule/add-timeslot",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: "your_user_id", // Replace with the actual user ID
-          timeSlotId: selectedTimeSlot.TimeSlotID,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      console.log("Time slot added to user schedule");
-    } else {
-      console.error("Error adding time slot to user schedule");
-    }
-  } catch (error) {
-    console.error(error.message);
-  }
-};
+import { AuthProvider, useAuth } from "../components/AuthContext";
 
 const TimeSlotPage = () => {
   const [timeSlots, setTimeSlots] = useState([]);
-
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const route = useRoute();
   const { ProviderID } = route.params;
+
+  const addTimeSlot = async (selectedTimeSlot) => {
+    try {
+      setLoading(true);
+      const userID = user?.id;
+
+      console.log("Userid in timeslotpage: ", userID);
+
+      const response = await fetch(
+        "http://10.121.46.79:3000/api/userschedule/add-timeslot",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            UserID: userID,
+            TimeSlotId: selectedTimeSlot.TimeSlotID,
+            BookingDate: selectedTimeSlot.BookingDate,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Time slot added to user schedule", data.ScheduleID);
+      } else {
+        const errorData = await response.json();
+        console.error("Error adding time slot to user schedule");
+      }
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   console.log("First provider id: ", ProviderID);
 
   const getTimeSlots = async () => {
     try {
+      console.log("User: ", user);
       const timeSlotResponse = await fetch(
-        `http://10.121.19.142:3000/api/timeslots/${ProviderID}`
+        `http://10.121.46.79:3000/api/timeslots/${ProviderID}`
       );
       if (timeSlotResponse.ok) {
         const data = await timeSlotResponse.json();
@@ -62,7 +76,7 @@ const TimeSlotPage = () => {
   }, [ProviderID]);
 
   const handleTimeSlotPress = (selectedTimeSlot) => {
-    console.log("Selected Time Slot:", selectedTimeSlot);
+    addTimeSlot(selectedTimeSlot);
   };
 
   return (
@@ -91,45 +105,3 @@ const styles = StyleSheet.create({
 });
 
 export default TimeSlotPage;
-
-// export const BookL = () => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <Text style={styles.title}>Open Booking Slots</Text>
-//       <FlatList
-//         data={DATA}
-//         renderItem={({ item }) => <Item title={item.title} />}
-//         keyExtractor={(item) => item.id}
-//       />
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     marginTop: StatusBar.currentHeight || 0,
-//   },
-//   item: {
-//     backgroundColor: "#1d3557",
-//     padding: 20,
-//     marginVertical: 8,
-//     marginHorizontal: 16,
-//     borderRadius: 10,
-//   },
-//   times: {
-//     fontSize: 32,
-//     textAlign: "center", // Center the text horizontally
-//     color: "white",
-//     fontWeight: "bold",
-//   },
-//   title: {
-//     fontSize: 20, // Change the font size for the title
-//     fontWeight: "bold",
-//     marginTop: 10,
-//     lineHeight: 20,
-//     textAlign: "center",
-//   },
-// });
-
-// export default BookL;

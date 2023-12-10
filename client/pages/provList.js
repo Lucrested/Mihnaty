@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { COLORS, icons, images, SIZES, FONTS } from "../constants";
 import { useNavigation } from "@react-navigation/core";
-import {supabase} from "../supabase"
+import { supabase } from "../supabase";
 
 const SectionListBasics = () => {
   const [providers, setProviders] = useState([]);
@@ -24,7 +24,13 @@ const SectionListBasics = () => {
 
   //POP up
 
-  const Pop = ({ ProviderID, modalVisible, setModalVisible, picture, rating }) => {
+  const Pop = ({
+    ProviderID,
+    modalVisible,
+    setModalVisible,
+    picture,
+    rating,
+  }) => {
     return (
       <View style={styles.centeredView}>
         <Modal
@@ -50,7 +56,7 @@ const SectionListBasics = () => {
                       }}
                     />
                   </View>
-  
+
                   <View
                     style={{
                       marginHorizontal: SIZES.radius,
@@ -61,11 +67,11 @@ const SectionListBasics = () => {
                     <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
                       Category
                     </Text>
-  
+
                     <StarReview rate={rating} />
                   </View>
                 </View>
-  
+
                 <View style={{ marginTop: SIZES.radius }}>
                   <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
                     More info and description if needed
@@ -100,7 +106,7 @@ const SectionListBasics = () => {
     setModalVisible({ ...modalVisible, [ProviderID]: false });
   };
 
-  const handleProviderPress = () => {
+  const handleProviderPress = (ProviderID) => {
     console.log("Second Provider id: ", ProviderID);
     setModalVisible({ ...modalVisible, [ProviderID]: false });
     navigation.navigate("Booking", { ProviderID });
@@ -111,7 +117,7 @@ const SectionListBasics = () => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.19.142:3000/api/providers"
+        "http://10.121.46.79:3000/api/providers"
       );
 
       if (provListResponse.ok) {
@@ -128,27 +134,27 @@ const SectionListBasics = () => {
         // Fetch image URL and rating for each provider from Supabase
         const promises = providersData.map(async (provider) => {
           const { data: imagesData, error: imagesError } = await supabase
-            .from('provider-test')
-            .select('pic_url')
-            .eq('ProviderID', provider.ProviderID)
+            .from("provider-test")
+            .select("pic_url")
+            .eq("ProviderID", provider.ProviderID)
             .single();
 
           const { data: ratingsData, error: ratingsError } = await supabase
-            .from('provider-test')
-            .select('Rating')
-            .eq('ProviderID', provider.ProviderID)
+            .from("provider-test")
+            .select("Rating")
+            .eq("ProviderID", provider.ProviderID)
             .single();
 
           return {
             ...provider,
-            picture: imagesData?.pic_url || '',
+            picture: imagesData?.pic_url || "",
             rating: ratingsData?.Rating || 0,
           };
         });
 
         // Wait for all promises to resolve
         const updatedProviders = await Promise.all(promises);
-        
+
         // Update state with the fetched data
         setProviders(updatedProviders);
       } else {
@@ -203,7 +209,7 @@ const SectionListBasics = () => {
                   setModalVisible({ ...modalVisible, [item.ProviderID]: value })
                 }
                 picture={item.pic_url} // Pass the picture URL from the fetched data
-                rating={item.Rating}   // Pass the rating from the fetched data
+                rating={item.Rating} // Pass the rating from the fetched data
               />
             </View>
           )}
