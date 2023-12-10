@@ -10,6 +10,7 @@ import {
 import TimeSlotList from "../components/TimeSlotList";
 import { useRoute } from "@react-navigation/native";
 import { AuthProvider, useAuth } from "../components/AuthContext";
+import { Alert } from "react-native";
 
 const TimeSlotPage = () => {
   const [timeSlots, setTimeSlots] = useState([]);
@@ -74,6 +75,7 @@ const TimeSlotPage = () => {
 
   const handleTimeSlotPress = (selectedTimeSlot) => {
     addTimeSlot(selectedTimeSlot);
+    Alert.alert("Booked!", "This time slot has been added to your schedule.");
   };
 
   return (
