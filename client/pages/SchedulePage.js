@@ -44,8 +44,10 @@ const UserSchedulePage = () => {
           </View>
         </View>
       )}
+      // Remove the numColumns prop
     />
   );
+  
  
 };
 
@@ -53,35 +55,36 @@ const styles = StyleSheet.create({
   scheduleItem: {
     flexDirection: 'column',
     alignItems: 'center',
-    marginVertical: 8,
+    margin: 8,
   },
   scheduleBubble: {
-    backgroundColor: '#d6e4f0', // Light blue background
-    borderRadius: 30, // Increased border radius
-    padding: 25, // Increased padding for a wider bubble
-    marginBottom: 16, // More margin
+    backgroundColor: 'white', // Use your preferred grey color
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 8, // Add margin between the date and time bubbles
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  
   dateText: {
-    color: '#3498db', // Blue color for date
+    color: 'black', // Adjust text color as needed
     fontWeight: 'bold',
-    fontSize: 18, // Slightly larger font size
-    marginBottom: 12, // More space between date and time text
+    marginBottom: 4, // Add margin between date and time text
     textAlign: 'center',
   },
   timeitemText: {
-    color: '#2c3e50', // Darker blue color for time
-    fontWeight: 'normal',
-    fontSize: 16, // Slightly larger font size for time
+    color: 'black', // Adjust text color as needed
+    fontWeight: 'bold',
     textAlign: 'center',
+  },
+  row: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
 });
 
