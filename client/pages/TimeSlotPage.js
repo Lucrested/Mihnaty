@@ -25,7 +25,7 @@ const TimeSlotPage = () => {
       const userID = user?.id;
 
       const response = await fetch(
-        "http://10.121.46.79:3000/api/userschedule/add-timeslot",
+        "http://10.121.19.142:3000/api/userschedule/add-timeslot",
         {
           method: "POST",
           headers: {
@@ -58,7 +58,7 @@ const TimeSlotPage = () => {
     try {
       console.log("User: ", user);
       const timeSlotResponse = await fetch(
-        `http://10.121.46.79:3000/api/timeslots/${ProviderID}`
+        `http://10.121.19.142:3000/api/timeslots/${ProviderID}`
       );
       if (timeSlotResponse.ok) {
         const data = await timeSlotResponse.json();
@@ -81,7 +81,6 @@ const TimeSlotPage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Available Time Slots</Text>
-      {/* {timeSlots.map((timeSlot) => ( */}
       <TimeSlotList
         timeSlots={timeSlots}
         onTimeSlotPress={handleTimeSlotPress}
