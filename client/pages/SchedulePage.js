@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { useAuth } from "../components/AuthContext";
 import { StyleSheet } from "react-native";
 import { FlatList } from "react-native";
+import Navbar from "../components/Navbar";
 
 const UserSchedulePage = () => {
   const [userSchedule, setUserSchedule] = useState([]);
@@ -41,10 +42,13 @@ const UserSchedulePage = () => {
           <Text
             style={styles.timeitemText}
           >{`${item.TimeSlot.StartTime} - ${item.TimeSlot.EndTime}`}</Text>
+          {/* <Text style={styles.timeitemText}>{`${
+            item.providers - test.name
+          }`}</Text> */}
         </View>
       )}
-      numColumns={3} // Set the number of columns to 3
-      columnWrapperStyle={styles.row} // Style for the row
+      // numColumns={3} // Set the number of columns to 3
+      // columnWrapperStyle={styles.row} // Style for the row
     />
   );
 };
@@ -58,6 +62,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ddd",
     backgroundColor: "#fff",
+    width: "100%",
   },
   row: {
     flex: 1,

@@ -48,7 +48,8 @@ app.get("/api/timeslots/:ProviderID", async (req, res) => {
     const { data, error } = await supabase
       .from("TimeSlot")
       .select("*")
-      .filter("ProviderID", "eq", ProviderID);
+      .filter("ProviderID", "eq", ProviderID)
+      .filter("is_available", "eq", true);
 
     console.log("Time Slot Data gotten: ", data);
 
@@ -65,37 +66,15 @@ app.get("/api/userschedule/:userID", async (req, res) => {
   try {
     const userID = req.params.userID;
 
-    // const { data, error } = await supabase
-    //   .from("UserSchedule")
-    //   .select(
-    //     `
-    //     UserSchedule.ScheduleID,
-    //     UserSchedule.UserID,
-    //     UserSchedule.TimeSlotID,
-    //     TimeSlot.Date,
-    //     TimeSlot.StartTime,
-    //     TimeSlot.EndTime
-    //   `
-    //   )
-    //   .eq("UserSchedule.UserID", userID)
-    //   .join({
-    //     table: "TimeSlot",
-    //     on: ["UserSchedule.TimeSlotID", "TimeSlot.TimeSlotID"],
-    //   });
-
-    // if (error) throw error;
-    // console.log(data);
-
-    // res.json(data);
-
     const { data, error } = await supabase
       .from("UserSchedule")
       .select(
         `
         ScheduleID,
         UserID,
-        TimeSlot (Date, StartTime, EndTime)
-      `
+        TimeSlot: TimeSlot (ProviderID, Date, StartTime, EndTime)
+      
+        `
       )
       .eq("UserID", userID);
 
@@ -111,7 +90,14 @@ app.get("/api/userschedule/:userID", async (req, res) => {
 app.post("/api/userschedule/add-timeslot", async (req, res) => {
   try {
     const { UserID, TimeSlotID, BookingDate } = req.body;
-    // const { TimeSlotID, BookingDate } = req.body;
+
+    const { data: updateTimeSlotAvailability, updateError } = await supabase
+      .from("TimeSlot")
+      .update({ is_available: false })
+      .eq("TimeSlotID", TimeSlotID);
+
+    if (updateError) throw updateError;
+
     const { data, error } = await supabase.from("UserSchedule").upsert([
       {
         UserID: UserID,

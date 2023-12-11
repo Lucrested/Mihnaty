@@ -4,7 +4,7 @@ import * as React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BottomSheet, Button, Icon } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const Navbar = () => {
   const navigation = useNavigation();
