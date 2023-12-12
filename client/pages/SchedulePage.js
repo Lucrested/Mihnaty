@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { useAuth } from "../components/AuthContext";
 import { StyleSheet } from "react-native";
 import { FlatList } from "react-native";
@@ -11,25 +11,60 @@ const UserSchedulePage = () => {
   const { user } = useAuth();
   const userID = user?.id;
 
-  useEffect(() => {
-    const getUserSchedule = async () => {
-      try {
-        console.log(userID);
-        const response = await fetch(
-          `http://10.121.46.79:3000/api/userschedule/${userID}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setUserSchedule(data);
-        } else {
-          console.error("Error fetching user schedule");
-        }
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
+  // const confirmDelete = (scheduleID) => {
+  //   Alert.alert(
+  //     "Confirm Deletion",
+  //     "Are you sure you want to delete this entry?",
+  //     [
+  //       {
+  //         text: "Cancel",
+  //         style: "cancel",
+  //       },
+  //       { text: "Yes", onPress: () => handleDelete(scheduleID) },
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // };
 
+  // const handleDelete = async (scheduleID) => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://10.121.46.79:3000/api/userschedule/remove-timeslot/${scheduleID}`,
+  //       {
+  //         method: "DELETE",
+  //       }
+  //     );
+
+  //     if (response.ok) {
+  //       console.log("Time slot removed from user schedule");
+  //       getUserSchedule(); // Refresh the schedule after deletion
+  //     } else {
+  //       console.error("Error removing time slot from user schedule");
+  //     }
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
+
+  const getUserSchedule = async () => {
+    try {
+      console.log(userID);
+      const response = await fetch(
+        `http://10.121.46.79:3000/api/userschedule/${userID}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setUserSchedule(data);
+      } else {
+        console.error("Error fetching user schedule");
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
     getUserSchedule();
   }, [userID]);
 
@@ -39,17 +74,17 @@ const UserSchedulePage = () => {
       keyExtractor={(item) => item.ScheduleID.toString()}
       renderItem={({ item }) => (
         <View style={styles.scheduleItem}>
-          <View style={styles.scheduleBubble}>
+          <TouchableOpacity
+            style={styles.scheduleBubble}
+            // onPress={() => confirmDelete(item.ScheduleID)}
+          >
             <Text style={styles.dateText}>{`${item.TimeSlot.Date}`}</Text>
             <Text
               style={styles.timeitemText}
             >{`${item.TimeSlot.StartTime} - ${item.TimeSlot.EndTime}`}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       )}
-      // numColumns={3} // Set the number of columns to 3
-      // columnWrapperStyle={styles.row} // Style for the row
-      // Remove the numColumns prop
     />
   );
 };
