@@ -8,7 +8,7 @@ import {
   StatusBar,
 } from "react-native";
 import TimeSlotList from "../components/TimeSlotList";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { AuthProvider, useAuth } from "../components/AuthContext";
 import { Alert } from "react-native";
 
@@ -19,6 +19,7 @@ const TimeSlotPage = () => {
   const route = useRoute();
   const { ProviderID } = route.params;
 
+  const navigation = useNavigation();
   const addTimeSlot = async (selectedTimeSlot) => {
     try {
       setLoading(true);
@@ -76,6 +77,7 @@ const TimeSlotPage = () => {
   const handleTimeSlotPress = (selectedTimeSlot) => {
     addTimeSlot(selectedTimeSlot);
     Alert.alert("Booked!", "This time slot has been added to your schedule.");
+    navigation.navigate("Categories");
   };
 
   return (
@@ -85,7 +87,6 @@ const TimeSlotPage = () => {
         timeSlots={timeSlots}
         onTimeSlotPress={handleTimeSlotPress}
       />
-      {/* ))} */}
     </View>
   );
 };
