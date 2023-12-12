@@ -21,7 +21,7 @@ const AccountSettingsPage = ({ navigation }) => {
       console.log("UserID is: ", userID);
 
       if (user) {
-        const { data, error } = await supabase.auth.admin.deleteUser(user);
+        const { data, error } = await supabase.auth.admin.deleteUser(userID);
         Alert.alert("Deleted!", "This account has been deleted.");
         // Navigate to login after successful deletion
         navigation.navigate("Login");
