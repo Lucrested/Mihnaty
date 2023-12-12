@@ -11,6 +11,9 @@ import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthProvider } from "./components/AuthContext";
 import SchedulePage from "./pages/SchedulePage";
+import AccountSettingsPage from "./pages/AccountSettingsPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import SettingsHomePage from "./pages/SettingsHomePage";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +40,15 @@ export default function App() {
             />
             <Stack.Screen name="Booking" component={TimeSlotPage} />
             <Stack.Screen name="Schedule" component={SchedulePage} />
+            <Stack.Screen
+              name="AccountSettings"
+              component={AccountSettingsPage}
+            />
+            <Stack.Screen
+              name="ChangePasswordPage"
+              component={ChangePasswordPage}
+            />
+            <Stack.Screen name="Settings" component={SettingsHomePage} />
           </Stack.Navigator>
           <Navbar />
         </SafeAreaView>

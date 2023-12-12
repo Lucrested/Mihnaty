@@ -15,6 +15,9 @@ const Navbar = () => {
   const handleScheduleClick = () => {
     navigation.navigate("Schedule");
   };
+  const handleSettingsClick = () => {
+    navigation.navigate("Settings");
+  };
 
   return (
     <View style={navBarStyles.container}>
@@ -22,7 +25,11 @@ const Navbar = () => {
         { name: "Home", icon: "home", onPress: handleHomeClick },
         { name: "Schedule", icon: "calendar", onPress: handleScheduleClick },
         // { name: "Search", icon: "search1" },
-        { name: "AccountSettings", icon: "profile" },
+        {
+          name: "Settings",
+          icon: "profile",
+          onPress: handleSettingsClick,
+        },
       ].map((tab) => (
         <TouchableOpacity
           key={tab.name}
