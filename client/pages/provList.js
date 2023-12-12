@@ -125,7 +125,7 @@ const SectionListBasics = ({ route }) => {
   const fetchSections = async () => {
     try {
       const provListResponse = await fetch(
-        "http://10.121.19.142:3000/api/providers"
+        "http://10.121.46.79:3000/api/providers"
       );
       console.log("Selected Category:", category);
 
