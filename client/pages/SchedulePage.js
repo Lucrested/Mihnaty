@@ -43,7 +43,7 @@ const UserSchedulePage = () => {
   const handleDelete = async (scheduleID, timeSlotID) => {
     try {
       const response = await fetch(
-        `http://10.121.46.79:3000/api/userschedule/remove-timeslot/${scheduleID}/${timeSlotID}`,
+        `http://10.126.10.237:3000/api/userschedule/remove-timeslot/${scheduleID}/${timeSlotID}`,
         {
           method: "DELETE",
         }
@@ -65,7 +65,7 @@ const UserSchedulePage = () => {
     try {
       console.log(userID);
       const response = await fetch(
-        `http://10.121.19.142:3000/api/userschedule/${userID}`
+        `http://10.126.10.237:3000/api/userschedule/${userID}`
       );
       if (response.ok) {
         const data = await response.json();

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   logout: {
     width: "80%",
     padding: 20,
-    marginVertical: 10,
+    marginVertical: 30,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "red",
