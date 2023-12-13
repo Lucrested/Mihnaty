@@ -22,6 +22,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const handleForgotPasswordPress = () => {
+    Alert.alert("Error", "Too bad :(");
+  };
+
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please enter both email and password.");
@@ -107,7 +111,7 @@ const Login = () => {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleForgotPasswordPress}>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
       <TouchableOpacity
