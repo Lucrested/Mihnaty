@@ -72,7 +72,7 @@ app.get("/api/userschedule/:userID", async (req, res) => {
         `
         ScheduleID,
         UserID,
-        TimeSlot: TimeSlot (ProviderID, Date, StartTime, EndTime)
+        TimeSlot: TimeSlot (TimeSlotID, ProviderID, Date, StartTime, EndTime)
       
         `
       )
@@ -116,44 +116,64 @@ app.post("/api/userschedule/add-timeslot", async (req, res) => {
   }
 });
 
-// app.delete(
-//   "/api/userschedule/remove-timeslot/:scheduleID",
-//   async (req, res) => {
-//     try {
-//       const scheduleID = req.params.scheduleID;
+app.delete(
+  "/api/userschedule/remove-timeslot/:scheduleID/:timeSlotID",
+  async (req, res) => {
+    try {
+      const scheduleID = req.params.scheduleID;
+      const timeSlotID = req.params.timeSlotID;
+      console.log("ScheduleID in server: ", scheduleID);
 
-//       // Update availability to true before deleting
-//       const updateResponse = await supabase
-//         .from("TimeSlot")
-//         .update({ is_available: true })
-//         .match({ ScheduleID: scheduleID });
+      // Update availability to true before deleting
+      const updateResponse = await supabase
+        .from("TimeSlot")
+        .update({ is_available: true })
+        .match({ TimeSlotID: timeSlotID });
 
-//       if (updateResponse.error) throw updateResponse.error;
+      if (updateResponse.error) throw updateResponse.error;
 
-//       // Delete the entry
-//       const deleteResponse = await supabase
-//         .from("UserSchedule")
-//         .delete()
-//         .eq("ScheduleID", scheduleID);
+      // Delete the entry
+      const deleteResponse = await supabase
+        .from("UserSchedule")
+        .delete()
+        .eq("ScheduleID", scheduleID);
+      // if (deleteResponse.error) {
+      //   console.error("Error removing time slot from user schedule:", error);
+      //   throw deleteResponse.error;
+      // }
 
-//       if (deleteResponse.error) {
-//         console.error("Error removing time slot from user schedule:", error);
-//         throw deleteResponse.error;
-//       }
+      if (
+        Array.isArray(deleteResponse.data) &&
+        deleteResponse.data.length > 0
+      ) {
+        res.json({
+          Message: "This time slot has been removed from the schedule",
+        });
+      } else {
+        res.status(404).json({ message: "Schedule entry not found" });
+      }
 
-//       if (deleteResponse.data.length > 0) {
-//         res.json({
-//           Message: "This time slot has been removed from the schedule",
-//         });
-//       } else {
-//         res.status(404).json({ message: "Schedule entry not found" });
-//       }
-//     } catch (error) {
-//       console.error(
-//         "Error removing time slot from user schedule:",
-//         error.message
-//       );
-//       res.status(500).json({ message: "Internal server error." });
-//     }
-//   }
-// );
+      // if (deleteResponse.data) {
+      //   res.json({
+      //     Message: "This time slot has been removed from the schedule",
+      //   });
+      // } else {
+      //   res.status(404).json({ message: "Schedule entry not found" });
+      // }
+
+      // // if (deleteResponse.data.length > 0) {
+      // //   res.json({
+      // //     Message: "This time slot has been removed from the schedule",
+      // //   });
+      // // } else {
+      // //   res.status(404).json({ message: "Schedule entry not found" });
+      // // }
+    } catch (error) {
+      console.error(
+        "Error removing time slot from user schedule:",
+        error.message
+      );
+      res.status(500).json({ message: "Internal server error." });
+    }
+  }
+);

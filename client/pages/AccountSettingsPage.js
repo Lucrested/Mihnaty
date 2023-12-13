@@ -6,7 +6,7 @@ import { Alert } from "react-native";
 import { useAuth } from "../components/AuthContext";
 
 const AccountSettingsPage = ({ navigation }) => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const userID = user?.id;
 
   // Navigate to ChangePasswordPage
@@ -24,6 +24,7 @@ const AccountSettingsPage = ({ navigation }) => {
         const { data, error } = await supabase.auth.admin.deleteUser(userID);
         Alert.alert("Deleted!", "This account has been deleted.");
         // Navigate to login after successful deletion
+        signOut();
         navigation.navigate("Login");
       } else {
         console.error("User is not logged in.");
