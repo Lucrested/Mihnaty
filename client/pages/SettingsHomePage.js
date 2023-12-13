@@ -30,7 +30,7 @@ const SettingsHomePage = ({ navigation }) => {
         <Text style={styles.buttonText}>Application Settings</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.logout} onPress={handleLogOut}>
-        <Text style={styles.buttonText}>Log Out</Text>
+        <Text style={styles.logoutText}>Log Out</Text>
       </TouchableOpacity>
     </View>
   );
@@ -58,6 +58,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#333",
   },
+  logoutText: {
+    fontSize: "18",
+    color: "white",
+    fontWeight: "bold",
+  },
   logout: {
     width: "80%",
     padding: 20,
@@ -67,6 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     borderRadius: 10,
     elevation: 3,
+    opacity: 0.8,
   },
 });
 
